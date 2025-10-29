@@ -55,14 +55,14 @@ const HeroSection = () => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-xl mb-8 text-gray-300" // text-gray-200 to text-gray-300 for better contrast
+          className="text-xl mb-8 text-gray-300 glitch" // text-gray-200 to text-gray-300 for better contrast
         >
           Exploring the cutting edge of technology, one article at a time
         </motion.p>
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="group bg-secondary text-white px-8 py-3 rounded-full font-medium transition-all flex items-center gap-2 mx-auto shadow-[--shadow-neon-primary] hover:shadow-[--shadow-lg]"
+          className="group bg-transparent border border-secondary text-white px-8 py-3 rounded-full font-medium transition-all flex items-center gap-2 mx-auto shadow-[--shadow-neon-primary] hover:shadow-[--shadow-neon-secondary] hover:bg-secondary glitch"
         >
           Latest Articles
           <motion.span

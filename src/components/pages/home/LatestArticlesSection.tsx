@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import type { Post } from "@/lib/posts";
+import { Post } from "@/types/post";
 
 type Props = {
-  articles: Post[];
+  articles: Omit<Post, "content">[];
 };
 
 const LatestArticlesSection = ({ articles }: Props) => {
@@ -62,12 +62,12 @@ const LatestArticlesSection = ({ articles }: Props) => {
                   transition={{ duration: 0.3 }}
                   className="aspect-video relative overflow-hidden bg-gray-800" // Added a background color for placeholder
                 >
-                  {/* <Image
-                    src={article.image}
-                    alt={article.title}
+                  <Image
+                    src={article.frontmatter.image}
+                    alt={article.frontmatter.title}
                     fill
                     className="object-cover w-full h-full"
-                  /> */}
+                  />
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
@@ -84,12 +84,12 @@ const LatestArticlesSection = ({ articles }: Props) => {
                     whileHover={{ scale: 1.1 }}
                       className="inline-block text-sm font-medium text-secondary mb-2"
                   >
-                    {article.category}
+                    {article.frontmatter.category}
                   </motion.span>
                   <h3 className="text-xl font-semibold mt-2 mb-3">
-                    {article.title}
+                    {article.frontmatter.title}
                   </h3>
-                  <p className="text-muted-foreground">{article.excerpt}</p>
+                  <p className="text-muted-foreground">{article.frontmatter.excerpt}</p>
                 </motion.div>
               </Link>
             </motion.div>

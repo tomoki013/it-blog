@@ -2,7 +2,7 @@
 
 @theme {
   --font-sans: "Inter", sans-serif;
-  --font-mono: "Roboto Mono", monospace;
+  --font-mono: "Share Tech Mono", monospace;
 
   --color-dark-bg: #0d0221;
   --color-dark-bg-secondary: #261b3e;
@@ -87,8 +87,9 @@
   }
 
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
     line-height: 1.6;
+    letter-spacing: 0.05em;
     background-color: var(--color-light-bg);
     color: var(--color-text-dark);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -115,6 +116,7 @@
     line-height: 1.2;
     margin-bottom: 1rem;
     color: var(--color-primary);
+    letter-spacing: 0.1em;
   }
 
   a {
