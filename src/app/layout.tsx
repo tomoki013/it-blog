@@ -1,0 +1,42 @@
+import { ThemeProvider } from "@/components/layouts/Theme-Provider";
+import "./globals.css";
+import { Share_Tech_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
+
+// 2. フォントを設定 (Inter は削除)
+const techMono = Share_Tech_Mono({
+  subsets: ["latin"],
+  weight: "400",
+});
+
+export const metadata: Metadata = {
+  title: "ともきちのエンジニア成長記",
+  description: "技術の備忘録とポートフォリオ",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ja" suppressHydrationWarning>
+      <body className={techMono.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="flex-1 text-sm md:text-base pt-16">{children}</main>
+          <Footer />
+          <Toaster position="top-right" />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
