@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { FaGithub, FaPenSquare } from "react-icons/fa";
+import { SiQiita, SiZenn } from "react-icons/si";
 import Link from "next/link";
 
 const Footer = () => {
@@ -34,10 +35,22 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: <Github className="h-5 w-5" />, href: "#" },
-    { icon: <Twitter className="h-5 w-5" />, href: "#" },
-    { icon: <Linkedin className="h-5 w-5" />, href: "#" },
-    { icon: <Mail className="h-5 w-5" />, href: "#" },
+    {
+      icon: <FaGithub className="h-5 w-5" />,
+      href: "https://github.com/tomoki013",
+    },
+    {
+      icon: <FaPenSquare className="h-5 w-5" />,
+      href: "https://note.com/tomokichidiary",
+    },
+    {
+      icon: <SiQiita className="h-5 w-5" />,
+      href: "https://qiita.com/tomoki013",
+    },
+    {
+      icon: <SiZenn className="h-5 w-5" />,
+      href: "https://zenn.dev/tomoki013",
+    },
   ];
 
   return (
@@ -50,15 +63,17 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <h2 className="text-2xl font-bold">TechBlog</h2>
+            <h2 className="text-2xl font-bold">ともきちのエンジニア成長記</h2>
             <p className="text-muted-foreground">
-              Exploring the cutting edge of technology, one article at a time.
+              技術の備忘録とポートフォリオ
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{
@@ -121,7 +136,8 @@ const Footer = () => {
             }}
             className="text-muted-foreground"
           >
-            &copy; {new Date().getFullYear()} TechBlog. All rights reserved.
+            &copy; {new Date().getFullYear()} ともきちのエンジニア成長記. All
+            rights reserved.
           </motion.p>
         </motion.div>
       </div>

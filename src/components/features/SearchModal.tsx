@@ -29,7 +29,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-start justify-center pt-20"
+          className="fixed inset-0 z-100 bg-background/80 backdrop-blur-sm flex items-start justify-center pt-20"
           onClick={onClose}
         >
           <motion.div
@@ -50,7 +50,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               <X className="h-6 w-6" />
             </Button>
 
-            <h2 className="text-2xl font-bold text-center mb-6 glitch" data-text="Search Content">
+            <h2
+              className="text-2xl font-bold text-center mb-6 glitch"
+              data-text="Search Content"
+            >
               Search Content
             </h2>
 
@@ -65,9 +68,9 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
             </div>
 
             <div className="mt-6 h-64 overflow-y-auto">
-                <p className="text-center text-foreground/60 pt-4">
-                    検索結果はここに表示されます。
-                </p>
+              <p className="text-center text-foreground/60 pt-4">
+                検索結果はここに表示されます。
+              </p>
             </div>
           </motion.div>
         </motion.div>

@@ -44,7 +44,7 @@ const Header = () => {
       >
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" passHref legacyBehavior>
+            <Link href="/" passHref>
               <motion.a
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -53,7 +53,7 @@ const Header = () => {
                 className="text-2xl font-bold glitch"
                 data-text="TechBlog"
               >
-                TechBlog
+                ともきちのエンジニア成長記
               </motion.a>
             </Link>
 
