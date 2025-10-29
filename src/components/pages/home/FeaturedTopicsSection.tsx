@@ -28,7 +28,7 @@ const FeaturedTopicsSection = () => {
   };
 
   return (
-    <section className="max-w-7xl mx-auto py-20 px-4">
+    <section className="relative z-10 max-w-7xl mx-auto pt-40 pb-20 px-4 bg-background">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
