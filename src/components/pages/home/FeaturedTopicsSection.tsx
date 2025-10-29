@@ -49,31 +49,30 @@ const FeaturedTopicsSection = () => {
             icon: <Code2 className="h-8 w-8" />,
             title: "Development",
             description: "Modern web development practices and tutorials",
-              color: "from-primary to-secondary",
+            color: "from-primary to-secondary",
           },
           {
             icon: <Terminal className="h-8 w-8" />,
             title: "DevOps",
             description: "Infrastructure and deployment strategies",
-              color: "from-secondary to-primary",
+            color: "from-secondary to-primary",
           },
           {
             icon: <Cpu className="h-8 w-8" />,
             title: "AI & ML",
             description:
               "Latest in artificial intelligence and machine learning",
-              color: "from-primary to-secondary",
+            color: "from-primary to-secondary",
           },
           {
             icon: <Command className="h-8 w-8" />,
             title: "Tools",
             description: "Reviews of developer tools and software",
-              color: "from-secondary to-primary",
+            color: "from-secondary to-primary",
           },
         ].map((category, index) => (
           <motion.div
             key={index}
-            variants={item}
             whileHover={{
               scale: 1.05,
               rotate: [0, 2, -2, 0],
