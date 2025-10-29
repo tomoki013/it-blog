@@ -1,4 +1,10 @@
+/* 1. インポート */
 @import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+/* 2. カスタムバリアント */
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: "Inter", sans-serif;
@@ -52,7 +58,7 @@
   --font-size-6xl: "4rem";
   --font-size-7xl: "5rem";
 
-  --spacing-px: "1px";
+  /* --spacing-px: "1px";
   --spacing-0: "0";
   --spacing-1: "0.25rem";
   --spacing-2: "0.5rem";
@@ -66,7 +72,7 @@
   --spacing-16: "4rem";
   --spacing-20: "5rem";
   --spacing-24: "6rem";
-  --spacing-32: "8rem";
+  --spacing-32: "8rem"; */
 }
 
 @layer base {
