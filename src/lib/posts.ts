@@ -1,41 +1,81 @@
-// import fs from "fs";
-// import path from "path";
-// import matter from "gray-matter";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { Frontmatter, Post } from "@/types/post";
 
-// const postsDirectory = path.join(process.cwd(), "posts");
+// postsディレクトリへのパス
+const postsDirectory = path.join(process.cwd(), "posts");
 
-// TODO: Implement actual data fetching from markdown files
-export const getLatestPosts = async () => {
-  // For now, return the same dummy data
-  return [
-    {
-      slug: "future-of-web-development-2025",
-      image: "/images/placeholder-1.jpg",
-      category: "Development",
-      title: "The Future of Web Development in 2025",
-      excerpt: "Exploring upcoming trends and technologies shaping the web",
-    },
-    {
-      slug: "understanding-large-language-models",
-      image: "/images/placeholder-2.jpg",
-      category: "AI & ML",
-      title: "Understanding Large Language Models",
-      excerpt: "A deep dive into the technology behind AI language models",
-    },
-    {
-      slug: "kubernetes-best-practices",
-      image: "/images/placeholder-3.jpg",
-      category: "DevOps",
-      title: "Kubernetes Best Practices",
-      excerpt: "Essential tips for managing container orchestration",
-    },
-  ];
+/**
+ * すべての記事のメタデータ（Frontmatter）を日付の降順で取得します。
+ * @returns {Promise<Omit<Post, 'content'>[]>} ソート済みの記事メタデータ配列
+ */
+export const getAllPosts = async (): Promise<Omit<Post, "content">[]> => {
+  const fileNames = fs.readdirSync(postsDirectory);
+  const allPostsData = fileNames
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map((fileName) => {
+      // ファイル名から '.mdx' を削除してslugを取得
+      const slug = fileName.replace(/\.mdx$/, "");
+
+      // Markdownファイルを文字列として読み込む
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+
+      // gray-matterでfrontmatterをパース
+      const matterResult = matter(fileContents);
+      const frontmatter = matterResult.data as Frontmatter;
+
+      return {
+        slug,
+        frontmatter,
+      };
+    });
+
+  // 記事を日付でソート
+  return allPostsData.sort((a, b) => {
+    if (a.frontmatter.date < b.frontmatter.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
 };
 
-export type Post = {
-  slug: string;
-  image: string;
-  category: string;
-  title: string;
-  excerpt: string;
+/**
+ * 指定されたslugに基づいて単一の記事データを取得します。
+ * @param {string} slug - 記事のslug（ファイル名）
+ * @returns {Promise<Post>} 記事のFrontmatter、slug、および本文コンテンツ
+ */
+export const getPostBySlug = async (slug: string): Promise<Post> => {
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  // gray-matterでfrontmatterと本文をパース
+  const matterResult = matter(fileContents);
+  const frontmatter = matterResult.data as Frontmatter;
+
+  return {
+    slug,
+    frontmatter,
+    content: matterResult.content,
+  };
+};
+
+/**
+ * すべての記事のslugを取得します。
+ * これはgetStaticPathsで使用されます。
+ * @returns {{ params: { slug: string } }[]}
+ */
+export const getAllPostSlugs = () => {
+  const fileNames = fs.readdirSync(postsDirectory);
+  return fileNames
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map((fileName) => {
+      return {
+        params: {
+          slug: fileName.replace(/\.mdx$/, ""),
+        },
+      };
+    });
 };
