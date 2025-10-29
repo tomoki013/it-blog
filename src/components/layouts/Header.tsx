@@ -20,11 +20,19 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isSearchModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isSearchModalOpen]);
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -129,7 +137,7 @@ const Header = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "-100%" }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden bg-background/95 backdrop-blur-md absolute top-full left-0 w-full"
+              className="md:hidden bg-background backdrop-blur-md absolute top-full left-0 w-full"
             >
               <nav className="px-4 py-6 space-y-4">
                 {navItems.map((item, index) => (
