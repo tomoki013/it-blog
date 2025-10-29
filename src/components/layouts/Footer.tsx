@@ -41,7 +41,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-card">
+    <footer className="bg-card border-t border-primary/20 shadow-[0_-10px_30px_-15px_rgba(0,246,255,0.1)]">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <motion.div
@@ -59,9 +59,17 @@ const Footer = () => {
                 <motion.a
                   key={index}
                   href={social.href}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="text-foreground/80 hover:text-foreground transition-colors"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.2 + index * 0.1,
+                  }}
+                  whileHover={{ scale: 1.2, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-primary/70 hover:text-primary transition-all duration-300
+                             shadow-[0_0_10px_rgba(0,246,255,0.3)] hover:shadow-[0_0_20px_rgba(0,246,255,0.7)]
+                             rounded-full p-2"
                 >
                   {social.icon}
                 </motion.a>
@@ -74,7 +82,7 @@ const Footer = () => {
               key={section.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: sectionIndex * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.3 + sectionIndex * 0.1 }}
               className="space-y-4"
             >
               <h3 className="font-semibold">{section.title}</h3>
@@ -101,12 +109,20 @@ const Footer = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-12 pt-8 border-t border-border text-center text-muted-foreground"
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-12 pt-8 border-t border-border/50 text-center"
         >
-          <p>
+          <motion.p
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="text-muted-foreground"
+          >
             &copy; {new Date().getFullYear()} TechBlog. All rights reserved.
-          </p>
+          </motion.p>
         </motion.div>
       </div>
     </footer>

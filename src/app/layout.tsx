@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
+import PageTransition from "@/components/layouts/PageTransition";
 
 // 2. フォントを設定 (Inter は削除)
 const techMono = Share_Tech_Mono({
@@ -32,7 +33,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="flex-1 text-sm md:text-base pt-16">{children}</main>
+          <main className="flex-1 text-sm md:text-base pt-16">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
           <Toaster position="top-right" />
         </ThemeProvider>
