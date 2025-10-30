@@ -25,11 +25,11 @@ const Footer = () => {
       ],
     },
     {
-      title: "Legal",
+      title: "リーガル",
       links: [
-        { label: "Privacy", href: "/privacy" },
-        { label: "Terms", href: "/terms" },
-        { label: "Cookie Policy", href: "/cookies" },
+        { label: "プライバシーポリシー", href: "/privacy-policy" },
+        { label: "利用規約", href: "/terms-of-service" },
+        { label: "クッキーポリシー", href: "/cookie-policy" },
       ],
     },
   ];

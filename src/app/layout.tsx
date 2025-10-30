@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import Header from "@/components/layouts/Header";
 import Footer from "@/components/layouts/Footer";
 import PageTransition from "@/components/layouts/PageTransition";
+import CookieBanner from "@/components/features/CookieBanner";
 
 // 2. フォントを設定 (Inter は削除)
 const techMono = Share_Tech_Mono({
@@ -38,6 +39,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <Toaster position="top-right" />
+          <CookieBanner />
         </ThemeProvider>
       </body>
     </html>
