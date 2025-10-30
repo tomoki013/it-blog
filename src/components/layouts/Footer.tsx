@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaGithub, FaPenSquare } from "react-icons/fa";
+import { FaGithub, FaPenSquare, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiQiita, SiZenn } from "react-icons/si";
 import Link from "next/link";
 
 const Footer = () => {
   const footerLinks = [
     {
-      title: "Company",
+      title: "Contents",
       links: [
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
@@ -25,11 +25,11 @@ const Footer = () => {
       ],
     },
     {
-      title: "リーガル",
+      title: "Legal",
       links: [
-        { label: "プライバシーポリシー", href: "/privacy-policy" },
-        { label: "利用規約", href: "/terms-of-service" },
-        { label: "クッキーポリシー", href: "/cookie-policy" },
+        { label: "Privacy Policy", href: "/privacy-policy" },
+        { label: "Terms of Service", href: "/terms-of-service" },
+        { label: "Cookie Policy", href: "/cookie-policy" },
       ],
     },
   ];
@@ -40,8 +40,8 @@ const Footer = () => {
       href: "https://github.com/tomoki013",
     },
     {
-      icon: <FaPenSquare className="h-5 w-5" />,
-      href: "https://note.com/tomokichidiary",
+      icon: <FaLinkedin className="h-5 w-5" />,
+      href: "https://github.com/tomoki013",
     },
     {
       icon: <SiQiita className="h-5 w-5" />,
@@ -50,6 +50,14 @@ const Footer = () => {
     {
       icon: <SiZenn className="h-5 w-5" />,
       href: "https://zenn.dev/tomoki013",
+    },
+    // {
+    //   icon: <FaTwitter className="h-5 w-5" />,
+    //   href: "https://note.com/tomokichidiary",
+    // },
+    {
+      icon: <FaPenSquare className="h-5 w-5" />,
+      href: "https://note.com/tomokichidiary",
     },
   ];
 
@@ -63,11 +71,13 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <h2 className="text-2xl font-bold">ともきちのエンジニア成長記</h2>
+            <Link href={`/`}>
+              <h2 className="text-2xl font-bold">ともきちのエンジニア成長記</h2>
+            </Link>
             <p className="text-muted-foreground">
               技術の備忘録とポートフォリオ
             </p>
-            <div className="flex space-x-4">
+            <div className="flex gap-4 flex-wrap">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={index}
@@ -84,7 +94,7 @@ const Footer = () => {
                   whileTap={{ scale: 0.95 }}
                   className="text-primary/70 hover:text-primary transition-all duration-300
                              shadow-[0_0_10px_rgba(0,246,255,0.3)] hover:shadow-[0_0_20px_rgba(0,246,255,0.7)]
-                             rounded-full p-2"
+                             rounded-full w-fit p-2"
                 >
                   {social.icon}
                 </motion.a>

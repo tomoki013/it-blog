@@ -78,7 +78,7 @@ const FeaturedTopicsSection = () => {
               rotate: [0, 2, -2, 0],
               transition: { duration: 0.3 },
             }}
-            className={`group relative bg-dark-bg-secondary hover:bg-gradient-to-r ${category.color} p-6 rounded-xl border border-cyan-500 hover:border-magenta-500 transition-all duration-300 hover:shadow-[--shadow-neon-secondary] animate-float`}
+            className={`group relative bg-background hover:bg-gradient-to-r ${category.color} p-6 rounded-xl border border-cyan-500 hover:border-magenta-500 transition-all duration-300 hover:shadow-[--shadow-neon-secondary] animate-float`}
             style={{ animationDelay: `${index * 0.2}s` }}
           >
             <motion.div

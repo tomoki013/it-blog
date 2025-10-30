@@ -43,7 +43,7 @@ const LatestArticlesSection = ({ articles }: Props) => {
             <motion.div
               key={index}
               whileHover={{
-                y: -20,
+                y: -10,
                 transition: {
                   type: "spring",
                   stiffness: 300,
@@ -55,7 +55,7 @@ const LatestArticlesSection = ({ articles }: Props) => {
             >
               <Link
                 href={`/blog/${article.slug}`}
-                  className="block bg-card rounded-xl overflow-hidden border border-border-dark hover:border-primary/20 transition-all hover:shadow-[--shadow-neon-primary]"
+                className="block bg-card rounded-xl overflow-hidden border border-border-dark hover:border-primary/20 transition-all hover:shadow-[--shadow-neon-primary]"
               >
                 <motion.div
                   whileHover={{ scale: 1.2 }}
@@ -82,14 +82,16 @@ const LatestArticlesSection = ({ articles }: Props) => {
                 >
                   <motion.span
                     whileHover={{ scale: 1.1 }}
-                      className="inline-block text-sm font-medium text-secondary mb-2"
+                    className="inline-block text-sm font-medium text-secondary mb-2"
                   >
                     {article.frontmatter.category}
                   </motion.span>
                   <h3 className="text-xl font-semibold mt-2 mb-3">
                     {article.frontmatter.title}
                   </h3>
-                  <p className="text-muted-foreground">{article.frontmatter.excerpt}</p>
+                  <p className="text-muted-foreground">
+                    {article.frontmatter.excerpt}
+                  </p>
                 </motion.div>
               </Link>
             </motion.div>
