@@ -41,11 +41,13 @@ const Header = () => {
     { href: "/contact", label: "Contact" },
   ];
 
+  const isHomePage = pathname === "/";
+
   return (
     <>
       <header
         className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled
+          isScrolled || !isHomePage
             ? "bg-background/90 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/20"
             : "bg-transparent border-b border-transparent"
         }`}
