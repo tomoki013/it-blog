@@ -54,6 +54,17 @@ Gemini もしくは Jules に開発を依頼する際は、**必ずこのガイ�
   - `src/actions/`: React v19 Server Actions (`.ts` ファイル)
 - **型定義**: グローバルな型定義は `src/types/` に配置します。
 
+なお、このガイドラインは本リポジトリの現状構成に基づいて作成されています。参考までに本リポジトリの `src/app` は主に次のような構成になっています：
+
+- `src/app/globals.css`（グローバルスタイル）
+- `src/app/layout.tsx`（アプリ全体のレイアウト）
+- `src/app/page.tsx`（トップページ）
+- `src/app/(pages)/`（ページ群のセグメント）
+  - `about/`, `blog/`, `contact/`, `cookie-policy/`, `privacy-policy/`, `terms-of-service/` などのルートページ
+- `src/components/`（UI・機能コンポーネント群）
+
+この実ディレクトリ構成を前提に、上記ルール（Server Component 優先や Client Component の分離、`src/lib/posts.ts` 経由での記事取得など）に従って実装してください。
+
 ### 3-4. React v19 と App Router
 
 - **フォーム処理**: お問い合わせフォーム（`ContactForm`）は、**React v19 Server Actions** と **`useFormState`** フックを使用して実装します。

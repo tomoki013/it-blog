@@ -59,10 +59,11 @@ const HeroSection = () => {
         >
           Exploring the cutting edge of technology, one article at a time
         </motion.p>
-        <motion.button
+        <motion.a
+          href="/blog"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="group bg-transparent border border-secondary text-white px-8 py-3 rounded-full font-medium transition-all flex items-center gap-2 mx-auto shadow-[--shadow-neon-primary] hover:shadow-[--shadow-neon-secondary] hover:bg-secondary glitch"
+          className="group bg-transparent border border-secondary text-white px-8 py-3 rounded-full font-medium transition-all flex justify-center items-center gap-2 w-fit mx-auto shadow-[--shadow-neon-primary] hover:shadow-[--shadow-neon-secondary] hover:bg-secondary glitch"
         >
           Latest Articles
           <motion.span
@@ -78,7 +79,7 @@ const HeroSection = () => {
           >
             <ArrowRight className="h-4 w-4" />
           </motion.span>
-        </motion.button>
+        </motion.a>
       </div>
     </motion.section>
   );

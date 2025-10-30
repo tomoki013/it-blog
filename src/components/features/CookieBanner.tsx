@@ -1,20 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CookieBanner = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem("cookie_consent");
-    if (consent === null) {
-      setIsVisible(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("cookie_consent") === null;
     }
-  }, []);
+    return false;
+  });
 
-  const handleConsent = (consent: "accepted" | "declined") => {
+  const handleConsent = (consent: "true" | "false") => {
     localStorage.setItem("cookie_consent", consent);
     setIsVisible(false);
   };
@@ -32,20 +30,23 @@ const CookieBanner = () => {
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-300 flex-grow">
               当サイトでは、ユーザー体験の向上とサイトのパフォーマンス分析のためにクッキーを使用しています。詳細については、
-              <Link href="/cookie-policy" className="text-teal-400 underline hover:text-teal-200 transition-colors">
+              <Link
+                href="/cookie-policy"
+                className="text-teal-400 underline hover:text-teal-200 transition-colors"
+              >
                 クッキーポリシー
               </Link>
               をご確認ください。
             </p>
             <div className="flex items-center gap-3 flex-shrink-0">
               <button
-                onClick={() => handleConsent("accepted")}
+                onClick={() => handleConsent("true")}
                 className="px-4 py-2 bg-cyan-600/80 text-white font-bold rounded-md hover:bg-cyan-500/90 transition-all duration-300 border border-cyan-400 shadow-[0_0_8px_rgba(0,255,255,0.5)] text-sm"
               >
                 同意する
               </button>
               <button
-                onClick={() => handleConsent("declined")}
+                onClick={() => handleConsent("false")}
                 className="px-4 py-2 bg-gray-700/80 text-gray-200 font-bold rounded-md hover:bg-gray-600/90 transition-all duration-300 border border-gray-500 text-sm"
               >
                 拒否する
