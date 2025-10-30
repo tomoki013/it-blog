@@ -49,7 +49,7 @@ const Header = () => {
         className={`fixed w-full z-50 transition-all duration-300 ${
           isScrolled || !isHomePage
             ? "bg-background/90 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/20"
-            : "bg-transparent border-b border-transparent"
+            : ""
         }`}
       >
         <div className="max-w-7xl mx-auto px-4">
