@@ -5,13 +5,13 @@ import LatestArticlesSection from "@/components/pages/home/LatestArticlesSection
 import { Post } from "@/types/post";
 
 const Home = async () => {
-  const latestArticles: Omit<Post, "content">[] = await getAllPosts();
+  const articles: Omit<Post, "content" | "headings">[] = await getAllPosts();
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen relative">
       <HeroSection />
       <FeaturedTopicsSection />
-      <LatestArticlesSection articles={latestArticles} />
+      <LatestArticlesSection articles={articles} />
     </main>
   );
 };

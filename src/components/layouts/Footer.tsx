@@ -42,7 +42,7 @@ const Footer = () => {
     },
     {
       icon: <FaLinkedin className="h-5 w-5" />,
-      href: "https://github.com/tomoki013",
+      href: "https://www.linkedin.com/in/tomoki-takagi-5b08a738b/",
     },
     {
       icon: <SiQiita className="h-5 w-5" />,

@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import AnimatedBackground from "@/components/layouts/AnimatedBackground";
 
 const HeroSection = () => {
   const targetRef = useRef<HTMLDivElement>(null);
@@ -19,23 +20,9 @@ const HeroSection = () => {
     <motion.section
       ref={targetRef}
       style={{ opacity, scale, y }}
-      className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-black"
+      className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-transparent"
     >
-      <motion.div
-        animate={{
-          background: [
-            "linear-gradient(45deg, #FF0080, #7928CA)",
-            "linear-gradient(45deg, #7928CA, #FF0080)",
-            "linear-gradient(45deg, #FF0080, #7928CA)",
-          ],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-        className="absolute inset-0 opacity-75"
-      />
+      <AnimatedBackground className="absolute inset-0 opacity-85 -z-10" />
       <div className="relative z-10 text-white text-center max-w-4xl mx-auto px-4">
         <motion.h1
           initial={{ scale: 0.5, opacity: 0 }}

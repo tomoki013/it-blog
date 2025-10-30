@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Post } from "@/types/post";
 
 type Props = {
-  articles: Omit<Post, "content">[];
+  articles: Omit<Post, "content" | "headings">[];
 };
 
 const LatestArticlesSection = ({ articles }: Props) => {
