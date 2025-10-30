@@ -22,6 +22,7 @@ const Footer = () => {
         { label: "Documentation", href: "/docs" },
         { label: "Newsletter", href: "/newsletter" },
         { label: "RSS Feed", href: "/rss" },
+        { label: "Sitemap", href: "/sitemap" },
       ],
     },
     {
