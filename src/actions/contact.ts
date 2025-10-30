@@ -8,6 +8,7 @@ export interface ContactFormState {
     name?: string[];
     email?: string[];
     message?: string[];
+    consent?: string[];
   };
   isSuccess: boolean;
 }
@@ -15,7 +16,14 @@ export interface ContactFormState {
 const ContactSchema = z.object({
   name: z.string().min(2, { message: "お名前は2文字以上で入力してください。" }),
   email: z.string().email({ message: "有効なメールアドレスを入力してください。" }),
-  message: z.string().min(10, { message: "お問い合わせ内容は10文字以上で入力してください。" }),
+  message: z
+    .string()
+    .min(10, { message: "お問い合わせ内容は10文字以上で入力してください。" }),
+  consent: z
+    .string()
+    .refine((value) => value === "on", {
+      message: "利用規約とプライバシーポリシーに同意してください。",
+    }),
 });
 
 export const submitContactForm = async (
@@ -26,6 +34,7 @@ export const submitContactForm = async (
     name: formData.get("name"),
     email: formData.get("email"),
     message: formData.get("message"),
+    consent: formData.get("consent"),
   });
 
   if (!validatedFields.success) {
