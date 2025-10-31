@@ -26,7 +26,7 @@ const LatestArticlesSection = ({ articles }: Props) => {
       <div className="max-w-7xl mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-4xl font-bold mb-12 text-center gradient-text"
         >
@@ -35,8 +35,7 @@ const LatestArticlesSection = ({ articles }: Props) => {
         <motion.div
           variants={container}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+          animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {articles.map((article, index) => (
@@ -76,7 +75,7 @@ const LatestArticlesSection = ({ articles }: Props) => {
                 </motion.div>
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
+                  animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: index * 0.1 }}
                   className="p-6"
                 >

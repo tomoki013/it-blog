@@ -81,7 +81,11 @@ const Header = () => {
                     href={item.href}
                     className={`transition-colors ${
                       pathname === item.href
-                        ? "text-foreground"
+                        ? isHomePage && !isScrolled
+                          ? "text-white"
+                          : "text-foreground"
+                        : isHomePage && !isScrolled
+                        ? "text-white/70 hover:text-white"
                         : "text-foreground/70 hover:text-foreground"
                     }`}
                   >
