@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaGithub, FaPenSquare, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaPenSquare, FaLinkedin } from "react-icons/fa";
 import { SiQiita, SiZenn } from "react-icons/si";
 import Link from "next/link";
 

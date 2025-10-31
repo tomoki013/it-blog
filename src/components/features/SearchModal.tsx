@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Search, LoaderCircle, FileText } from "lucide-react";
+import { X, Search, LoaderCircle } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";

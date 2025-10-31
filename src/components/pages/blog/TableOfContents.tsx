@@ -11,14 +11,11 @@ type Props = {
 };
 
 const TableOfContents = ({ headings }: Props) => {
-  if (!headings || headings.length === 0) {
-    return null;
-  }
   const [isOpen, setIsOpen] = useState(false);
   const [activeHeading, setActiveHeading] = useState<string>("");
 
   useEffect(() => {
-    if (headings.length === 0 || window.innerWidth < 1024) {
+    if (!headings || headings.length === 0 || window.innerWidth < 1024) {
       return;
     }
 
@@ -53,6 +50,10 @@ const TableOfContents = ({ headings }: Props) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [headings]);
+
+  if (!headings || headings.length === 0) {
+    return null;
+  }
 
   const tocContent = (
     <ul className="space-y-2">

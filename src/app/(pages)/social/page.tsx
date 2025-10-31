@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaXTwitter, FaGithub } from "react-icons/fa6";
+import { FaGithub } from "react-icons/fa6";
 import { SiZenn, SiQiita } from "react-icons/si";
 import Link from "next/link";
 import GlitchText from "@/components/ui/GlitchText";

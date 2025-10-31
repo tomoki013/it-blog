@@ -15,18 +15,6 @@ const FeaturedTopicsSection = () => {
     },
   };
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        bounce: 0.6,
-      },
-    },
-  };
-
   return (
     <section className="relative z-10 max-w-7xl mx-auto pt-40 pb-20 px-4 bg-background">
       <motion.h2
