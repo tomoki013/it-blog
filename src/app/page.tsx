@@ -8,11 +8,11 @@ const Home = async () => {
   const articles: Omit<Post, "content" | "headings">[] = await getAllPosts();
 
   return (
-    <main className="min-h-screen relative">
+    <div className="min-h-screen relative">
       <HeroSection />
       <FeaturedTopicsSection />
       <LatestArticlesSection articles={articles} />
-    </main>
+    </div>
   );
 };
 

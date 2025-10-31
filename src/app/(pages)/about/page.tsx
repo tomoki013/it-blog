@@ -30,7 +30,7 @@ const About = () => {
   ];
 
   return (
-    <main className="min-h-screen pt-20 bg-background">
+    <div className="min-h-screen pt-20 bg-background">
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -126,7 +126,7 @@ const About = () => {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

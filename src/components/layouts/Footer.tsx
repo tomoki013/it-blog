@@ -21,8 +21,8 @@ const Footer = () => {
       title: "Resources",
       links: [
         { label: "Documentation", href: "/documentation" },
-        { label: "Newsletter", href: "/newsletter" },
-        { label: "RSS Feed", href: "/rss" },
+        // { label: "Newsletter", href: "/newsletter" },
+        // { label: "RSS Feed", href: "/rss" },
         { label: "Sitemap", href: "/sitemap" },
       ],
     },
@@ -39,7 +39,7 @@ const Footer = () => {
   const socialLinks = [
     {
       icon: <FaGithub className="h-5 w-5" />,
-      href: "https://github.com/tomoki013",
+      href: "https://github.com/tomoki013/",
     },
     {
       icon: <FaLinkedin className="h-5 w-5" />,
@@ -47,19 +47,19 @@ const Footer = () => {
     },
     {
       icon: <SiQiita className="h-5 w-5" />,
-      href: "https://qiita.com/tomoki013",
+      href: "https://qiita.com/tomoki013/",
     },
     {
       icon: <SiZenn className="h-5 w-5" />,
-      href: "https://zenn.dev/tomoki013",
+      href: "https://zenn.dev/tomoki013/",
     },
     // {
     //   icon: <FaTwitter className="h-5 w-5" />,
-    //   href: "https://note.com/tomokichidiary",
+    //   href: "https://note.com/tomokichidiary/",
     // },
     {
       icon: <FaPenSquare className="h-5 w-5" />,
-      href: "https://note.com/tomokichidiary",
+      href: "https://note.com/tomokichidiary/",
     },
   ];
 
