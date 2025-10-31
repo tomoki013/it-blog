@@ -61,12 +61,14 @@ const LatestArticlesSection = ({ articles }: Props) => {
                   transition={{ duration: 0.3 }}
                   className="aspect-video relative overflow-hidden bg-gray-800" // Added a background color for placeholder
                 >
-                  <Image
-                    src={article.frontmatter.image}
-                    alt={article.frontmatter.title}
-                    fill
-                    className="object-cover w-full h-full"
-                  />
+                  {article.frontmatter.image && (
+                    <Image
+                      src={article.frontmatter.image}
+                      alt={article.frontmatter.title}
+                      fill
+                      className="object-cover w-full h-full"
+                    />
+                  )}
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
