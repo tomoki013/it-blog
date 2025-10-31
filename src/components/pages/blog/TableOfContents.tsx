@@ -11,6 +11,9 @@ type Props = {
 };
 
 const TableOfContents = ({ headings }: Props) => {
+  if (!headings || headings.length === 0) {
+    return null;
+  }
   const [isOpen, setIsOpen] = useState(false);
   const [activeHeading, setActiveHeading] = useState<string>("");
 
