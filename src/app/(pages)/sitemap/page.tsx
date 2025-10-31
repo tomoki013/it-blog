@@ -4,7 +4,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "サイトマップ",
-  description: "ともきちのエンジニア成長記のサイトマップです。すべてのページと記事へのリンクを網羅しています。",
+  description:
+    "ともきちのエンジニア成長記のサイトマップです。すべてのページと記事へのリンクを網羅しています。",
 };
 
 async function SitemapContents() {
@@ -27,7 +28,7 @@ async function SitemapContents() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div className="text-center">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-primary tracking-tighter mb-4 glitch">
           サイトマップ
@@ -46,20 +47,26 @@ async function SitemapContents() {
           <ul className="space-y-3">
             {staticPages.map((page) => (
               <li key={page.href}>
-                <Link href={page.href} className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2">
-                    {page.title}
+                <Link
+                  href={page.href}
+                  className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2"
+                >
+                  {page.title}
                 </Link>
               </li>
             ))}
           </ul>
-            <h2 className="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400/50 pb-2 pt-8">
+          <h2 className="text-2xl font-bold text-cyan-400 border-b-2 border-cyan-400/50 pb-2 pt-8">
             規約など
           </h2>
           <ul className="space-y-3">
             {legalPages.map((page) => (
               <li key={page.href}>
-                <Link href={page.href} className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2">
-                    {page.title}
+                <Link
+                  href={page.href}
+                  className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2"
+                >
+                  {page.title}
                 </Link>
               </li>
             ))}
@@ -74,8 +81,11 @@ async function SitemapContents() {
           <ul className="space-y-3 columns-1 sm:columns-2">
             {allPosts.map((post) => (
               <li key={post.slug} className="break-inside-avoid">
-                <Link href={`/blog/${post.slug}`} className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2">
-                    {post.frontmatter.title}
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="text-foreground hover:text-primary transition-colors duration-300 text-lg hover:underline underline-offset-4 decoration-primary decoration-2"
+                >
+                  {post.frontmatter.title}
                 </Link>
               </li>
             ))}
@@ -83,14 +93,14 @@ async function SitemapContents() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 const SitemapPage = () => {
   return (
-    <main className="min-h-screen pt-24 sm:pt-32">
+    <div className="min-h-screen pt-24 sm:pt-32">
       <SitemapContents />
-    </main>
+    </div>
   );
 };
 
