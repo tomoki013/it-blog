@@ -1,196 +1,109 @@
-"use client";
+'use client';
 
-import { useFormState, useFormStatus } from "react-dom";
-import { submitContactForm, type ContactFormState } from "@/actions/contact";
-import { useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import Link from "next/link";
+import { useFormState } from 'react-dom';
+import { useEffect, useRef } from 'react';
+import { sendEmail } from '@/actions/sendEmail';
+import type { FormState } from '@/types/contact';
+import { toast } from 'react-hot-toast';
+import { FaPaperPlane } from 'react-icons/fa6';
 
-const initialState: ContactFormState = {
-  message: "",
-  isSuccess: false,
+const initialState: FormState = {
+  status: 'idle',
+  message: '',
 };
 
-function SubmitButton({ isFormValid }: { isFormValid: boolean }) {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      type="submit"
-      disabled={pending || !isFormValid}
-      className="w-full font-bold text-lg tracking-widest uppercase"
-      variant="primary"
-      aria-disabled={pending || !isFormValid}
-    >
-      {pending ? "送信中..." : "メッセージを送信"}
-    </Button>
-  );
-}
-
-const ContactForm = () => {
-  const [state, formAction] = useFormState(submitContactForm, initialState);
+export const ContactForm = () => {
+  const [state, formAction] = useFormState(sendEmail, initialState);
   const formRef = useRef<HTMLFormElement>(null);
-  const [formValues, setFormValues] = useState({
-    name: "",
-    email: "",
-    message: "",
-    consent: false,
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type } = e.target;
-    if (type === "checkbox") {
-      setFormValues({
-        ...formValues,
-        [name]: (e.target as HTMLInputElement).checked,
-      });
-    } else {
-      setFormValues({ ...formValues, [name]: value });
-    }
-  };
-
-  const isFormValid =
-    formValues.name &&
-    formValues.email &&
-    formValues.message &&
-    formValues.consent;
 
   useEffect(() => {
-    if (state.message) {
-      if (state.isSuccess) {
-        toast.success(state.message);
-        formRef.current?.reset();
-      } else {
-        toast.error(state.message);
-      }
+    if (state.status === 'success') {
+      toast.success(state.message);
+      formRef.current?.reset(); // 成功時にフォームをリセット
+    } else if (state.status === 'error' && state.message && !state.errors) {
+      // Zod以外のサーバーエラーなどをトーストで表示
+      toast.error(state.message);
     }
   }, [state]);
 
   return (
-    <form ref={formRef} action={formAction} className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <label htmlFor="name" className="block text-sm font-medium text-primary mb-2">
+    <form ref={formRef} action={formAction} className="w-full max-w-lg space-y-8">
+      <div className="relative">
+        <label
+          htmlFor="name"
+          className="absolute -top-3 left-4 bg-[var(--color-dark-bg)] px-1 text-sm text-cyan-400 transition-colors duration-300"
+        >
           お名前
         </label>
         <input
-          type="text"
           id="name"
           name="name"
+          type="text"
           required
-          className="block w-full bg-background/50 border-2 border-primary/30 focus:border-primary focus:ring-primary rounded-md shadow-sm py-3 px-4 transition-all duration-300 placeholder:text-foreground/50"
-          placeholder="Taro Yamada"
-          onChange={handleInputChange}
-          value={formValues.name}
+          aria-describedby="name-error"
+          className="peer w-full appearance-none border-2 border-cyan-500 bg-transparent px-4 py-3 text-gray-200 placeholder-gray-500 shadow-lg shadow-cyan-500/10 transition-all duration-300 focus:border-cyan-300 focus:shadow-cyan-300/30 focus:outline-none"
         />
         {state.errors?.name && (
-          <p className="text-red-500 text-sm mt-1">{state.errors.name[0]}</p>
+          <p id="name-error" className="mt-2 text-sm text-red-400">
+            {state.errors.name.join(', ')}
+          </p>
         )}
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <label htmlFor="email" className="block text-sm font-medium text-primary mb-2">
+      <div className="relative">
+        <label
+          htmlFor="email"
+          className="absolute -top-3 left-4 bg-[var(--color-dark-bg)] px-1 text-sm text-cyan-400 transition-colors duration-300"
+        >
           メールアドレス
         </label>
         <input
-          type="email"
           id="email"
           name="email"
+          type="email"
           required
-          className="block w-full bg-background/50 border-2 border-primary/30 focus:border-primary focus:ring-primary rounded-md shadow-sm py-3 px-4 transition-all duration-300 placeholder:text-foreground/50"
-          placeholder="your.email@example.com"
-          onChange={handleInputChange}
-          value={formValues.email}
+          aria-describedby="email-error"
+          className="peer w-full appearance-none border-2 border-cyan-500 bg-transparent px-4 py-3 text-gray-200 placeholder-gray-500 shadow-lg shadow-cyan-500/10 transition-all duration-300 focus:border-cyan-300 focus:shadow-cyan-300/30 focus:outline-none"
         />
         {state.errors?.email && (
-          <p className="text-red-500 text-sm mt-1">{state.errors.email[0]}</p>
+          <p id="email-error" className="mt-2 text-sm text-red-400">
+            {state.errors.email.join(', ')}
+          </p>
         )}
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-      >
-        <label htmlFor="message" className="block text-sm font-medium text-primary mb-2">
-          お問い合わせ内容
+      <div className="relative">
+        <label
+          htmlFor="message"
+          className="absolute -top-3 left-4 bg-[var(--color-dark-bg)] px-1 text-sm text-cyan-400 transition-colors duration-300"
+        >
+          メッセージ
         </label>
         <textarea
           id="message"
           name="message"
-          rows={6}
+          rows={5}
           required
-          className="block w-full bg-background/50 border-2 border-primary/30 focus:border-primary focus:ring-primary rounded-md shadow-sm py-3 px-4 transition-all duration-300 placeholder:text-foreground/50"
-          placeholder="プロジェクトに関するご相談..."
-          onChange={handleInputChange}
-          value={formValues.message}
+          aria-describedby="message-error"
+          className="peer w-full appearance-none border-2 border-cyan-500 bg-transparent px-4 py-3 text-gray-200 placeholder-gray-500 shadow-lg shadow-cyan-500/10 transition-all duration-300 focus:border-cyan-300 focus:shadow-cyan-300/30 focus:outline-none"
         />
         {state.errors?.message && (
-          <p className="text-red-500 text-sm mt-1">{state.errors.message[0]}</p>
+          <p id="message-error" className="mt-2 text-sm text-red-400">
+            {state.errors.message.join(', ')}
+          </p>
         )}
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="flex items-start space-x-3"
-      >
-        <input
-          id="consent"
-          name="consent"
-          type="checkbox"
-          required
-          className="h-5 w-5 rounded border-primary/50 text-primary focus:ring-primary/50 bg-transparent mt-1"
-          onChange={handleInputChange}
-          checked={formValues.consent}
-        />
-        <div className="text-sm">
-          <label htmlFor="consent" className="font-medium text-foreground">
-            <Link
-              href="/terms-of-service"
-              className="text-primary hover:underline"
-              target="_blank"
-            >
-              利用規約
-            </Link>
-            と
-            <Link
-              href="/privacy-policy"
-              className="text-primary hover:underline"
-              target="_blank"
-            >
-              プライバシーポリシー
-            </Link>
-            に同意します。
-          </label>
-        </div>
-      </motion.div>
-
-      {state.errors?.consent && (
-        <p className="text-red-500 text-sm">{state.errors.consent[0]}</p>
-      )}
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.0 }}
-      >
-        <SubmitButton isFormValid={isFormValid} />
-      </motion.div>
+      <div className="flex justify-end pt-4">
+        <button
+          type="submit"
+          className="group relative inline-flex items-center gap-3 overflow-hidden border-2 border-cyan-400 px-8 py-3 text-lg font-bold text-cyan-400 transition-all duration-300 hover:border-cyan-300 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-400/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[var(--color-dark-bg)]"
+        >
+          <span className="absolute -left-full top-0 h-full w-full -skew-x-45 bg-cyan-400/20 transition-all duration-500 group-hover:left-full"></span>
+          <FaPaperPlane />
+          <span>送信</span>
+        </button>
+      </div>
     </form>
   );
 };
-
-export default ContactForm;
