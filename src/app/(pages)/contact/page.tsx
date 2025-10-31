@@ -1,14 +1,24 @@
-import ContactForm from "@/components/features/ContactForm";
-import type { Metadata } from "next";
-import ContactClientPage from "./ContactClientPage";
+import { ContactForm } from '@/components/features/ContactForm';
+import { GlitchText } from '@/components/ui/GlitchText';
+import { NextPage } from 'next';
 
-export const metadata: Metadata = {
-  title: "お問い合わせ | ともきちのエンジニア成長記",
-  description: "プロジェクトのご相談、技術的なご質問など、お気軽にお問い合わせください。",
-};
+const ContactPage: NextPage = () => {
+  return (
+    <div className="container mx-auto max-w-4xl px-4 py-12">
+      <header className="mb-12 text-center">
+        <h1 className="mb-4 text-4xl font-bold md:text-5xl">
+          <GlitchText text="Contact" />
+        </h1>
+        <p className="text-lg text-gray-400">
+          ご依頼、ご質問、ご感想など、お気軽にお問い合わせください。
+        </p>
+      </header>
 
-const ContactPage = () => {
-  return <ContactClientPage />;
+      <main className="flex justify-center">
+        <ContactForm />
+      </main>
+    </div>
+  );
 };
 
 export default ContactPage;
