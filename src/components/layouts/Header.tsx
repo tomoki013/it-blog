@@ -125,7 +125,7 @@ const Header = () => {
                 className="md:hidden"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
-                {isMobileMenuOpen ? (
+                {isMobileMenu-Open ? (
                   <X className="h-5 w-5" />
                 ) : (
                   <Menu className="h-5 w-5" />
@@ -142,7 +142,7 @@ const Header = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "-100%" }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden bg-background backdrop-blur-md absolute top-full left-0 w-full"
+              className="md:hidden bg-background backdrop-blur-lg absolute top-full left-0 w-full"
             >
               <nav className="px-4 py-6 space-y-4">
                 {navItems.map((item, index) => (
