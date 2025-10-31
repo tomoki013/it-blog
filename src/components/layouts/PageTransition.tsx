@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
+  const isHomePage = pathname === "/";
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -14,6 +16,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         animate={{ y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
+        className={!isHomePage ? "pt-16" : ""}
       >
         {children}
       </motion.div>

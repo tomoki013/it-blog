@@ -34,7 +34,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="flex-1 text-sm md:text-base pt-16">
+          <main className="flex-1 text-sm md:text-base">
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
