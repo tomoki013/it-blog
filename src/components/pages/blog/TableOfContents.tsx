@@ -15,25 +15,40 @@ const TableOfContents = ({ headings }: Props) => {
   const [activeHeading, setActiveHeading] = useState<string>("");
 
   useEffect(() => {
+    if (headings.length === 0 || window.innerWidth < 1024) {
+      return;
+    }
+
+    const headingPositions = headings
+      .map((heading) => {
+        const element = document.getElementById(heading.slug);
+        return element ? { id: heading.slug, top: element.offsetTop } : null;
+      })
+      .filter((pos): pos is { id: string; top: number } => pos !== null);
+
     const handleScroll = () => {
-      if (window.innerWidth < 1024) return;
+      const scrollPosition = window.scrollY + 150; // Offset for better accuracy
 
-      const headingElements = headings.map((heading) =>
-        document.getElementById(heading.slug)
-      );
-
-      let current = "";
-      for (let i = 0; i < headingElements.length; i++) {
-        const heading = headingElements[i];
-        if (heading && heading.offsetTop - 150 <= window.scrollY) {
-          current = heading.id;
+      let newActiveHeading = "";
+      // Find the last heading that is above the current scroll position
+      for (let i = headingPositions.length - 1; i >= 0; i--) {
+        if (scrollPosition >= headingPositions[i].top) {
+          newActiveHeading = headingPositions[i].id;
+          break;
         }
       }
-      setActiveHeading(current);
+
+      setActiveHeading((prev) =>
+        prev !== newActiveHeading ? newActiveHeading : prev
+      );
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [headings]);
 
   const tocContent = (
