@@ -9,6 +9,12 @@ const contactFormSchema = z.object({
   name: z.string().min(1, 'お名前は必須です。'),
   email: z.string().email('有効なメールアドレスを入力してください。'),
   message: z.string().min(1, 'メッセージを入力してください。'),
+  agreement: z.preprocess(
+    (val) => val === 'on',
+    z.boolean().refine((val) => val === true, {
+      message: '利用規約とプライバシーポリシーに同意してください。',
+    }),
+  ),
 });
 
 /**
