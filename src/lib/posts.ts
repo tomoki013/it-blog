@@ -75,7 +75,10 @@ export const getAllPosts = async (): Promise<Omit<Post, "content" | "headings">[
 
         return {
           slug,
-          frontmatter,
+          frontmatter: {
+            ...frontmatter,
+            tags: frontmatter.tags || [],
+          },
         };
       });
   });
@@ -201,7 +204,10 @@ export const getAllPostsForSearch = async (): Promise<Pick<Post, 'slug' | 'front
 
         return {
           slug,
-          frontmatter,
+          frontmatter: {
+            ...frontmatter,
+            tags: frontmatter.tags || [],
+          },
           content,
         };
       });

@@ -18,7 +18,7 @@ export const searchPostsAction = async (
 
   const searchResults = allPosts.filter((post) => {
     const titleMatch = post.frontmatter.title.toLowerCase().includes(lowerCaseQuery);
-    const excerptMatch = post.frontmatter.excerpt.toLowerCase().includes(lowerCaseQuery);
+    const excerptMatch = post.frontmatter.excerpt ? post.frontmatter.excerpt.toLowerCase().includes(lowerCaseQuery) : false;
     const contentMatch = post.content.toLowerCase().includes(lowerCaseQuery);
     const tagMatch = post.frontmatter.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery));
 
