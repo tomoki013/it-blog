@@ -175,3 +175,44 @@ export const getAdjacentPosts = async (slug: string): Promise<{
 
   return { prevPost, nextPost };
 };
+
+/**
+ * 検索用にすべての記事のデータを取得します。
+ * slug, frontmatter, content を含みます。
+ * @returns {Promise<Pick<Post, 'slug' | 'frontmatter' | 'content'>[]>}
+ */
+export const getAllPostsForSearch = async (): Promise<Pick<Post, 'slug' | 'frontmatter' | 'content'>[]> => {
+  const postDirs = getPostDirectories();
+  const allPostsData = postDirs.flatMap((dir) => {
+    const absoluteDir = path.join(postsRootDirectory, dir);
+    if (!fs.existsSync(absoluteDir)) {
+      return [];
+    }
+    const fileNames = fs.readdirSync(absoluteDir);
+
+    return fileNames
+      .filter((fileName) => fileName.endsWith(".mdx"))
+      .map((fileName) => {
+        const slug = fileName.replace(/\.mdx$/, "");
+        const fullPath = path.join(absoluteDir, fileName);
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data, content } = matter(fileContents);
+        const frontmatter = data as Frontmatter;
+
+        return {
+          slug,
+          frontmatter,
+          content,
+        };
+      });
+  });
+
+  // 日付でソート
+  return allPostsData.sort((a, b) => {
+    if (a.frontmatter.date < b.frontmatter.date) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+};

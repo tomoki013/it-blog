@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Search } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { X, Search, LoaderCircle, FileText } from "lucide-react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { searchPostsAction, SearchResult } from "@/actions/searchActions";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -12,15 +14,37 @@ interface SearchModalProps {
 
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (isOpen) {
-      // モーダルが開いたときにインプットにフォーカスを当てる
       setTimeout(() => {
         searchInputRef.current?.focus();
-      }, 100); // アニメーションの時間を考慮
+      }, 100);
+    } else {
+      setQuery("");
+      setResults([]);
     }
   }, [isOpen]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+    startTransition(async () => {
+      if (newQuery.trim().length > 1) {
+        const searchResults = await searchPostsAction(newQuery);
+        setResults(searchResults);
+      } else {
+        setResults([]);
+      }
+    });
+  };
+
+  const handleResultClick = () => {
+    onClose();
+  };
 
   return (
     <AnimatePresence>
@@ -29,7 +53,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-100 bg-background/80 backdrop-blur-sm flex items-start justify-center pt-20"
+          className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-start justify-center pt-20"
           onClick={onClose}
         >
           <motion.div
@@ -61,16 +85,53 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               <input
                 ref={searchInputRef}
                 type="search"
+                value={query}
+                onChange={handleSearch}
                 placeholder="記事やトピックを検索..."
                 className="w-full pl-12 pr-4 py-3 bg-background/70 border-2 border-primary/30 focus:border-primary focus:ring-primary rounded-md transition-all duration-300 placeholder:text-foreground/50"
               />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/70 pointer-events-none" />
             </div>
 
-            <div className="mt-6 h-64 overflow-y-auto">
-              <p className="text-center text-foreground/60 pt-4">
-                検索結果はここに表示されます。
-              </p>
+            <div className="mt-6 h-96 overflow-y-auto custom-scrollbar pr-4">
+              {isPending && (
+                <div className="flex justify-center items-center h-full">
+                  <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              )}
+
+              {!isPending && query.trim().length > 1 && results.length === 0 && (
+                <p className="text-center text-foreground/60 pt-4">
+                  検索結果が見つかりませんでした。
+                </p>
+              )}
+
+              {!isPending && query.trim().length <= 1 && (
+                <p className="text-center text-foreground/60 pt-4">
+                  2文字以上入力してください。
+                </p>
+              )}
+
+              {!isPending && results.length > 0 && (
+                <ul className="space-y-4">
+                  {results.map(({ slug, frontmatter }) => (
+                    <li key={slug}>
+                      <Link
+                        href={`/blog/${slug}`}
+                        className="block p-4 rounded-md transition-all duration-300 hover:bg-primary/10 border border-transparent hover:border-primary/30"
+                        onClick={handleResultClick}
+                      >
+                        <h3 className="font-bold text-lg text-foreground mb-1">
+                          {frontmatter.title}
+                        </h3>
+                        <p className="text-foreground/70 text-sm">
+                          {frontmatter.excerpt}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </motion.div>
         </motion.div>
