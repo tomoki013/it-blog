@@ -1,8 +1,8 @@
 import { Post } from "@/types/post";
 import ArticleHeader from "./ArticleHeader";
-import TableOfContents from "./TableOfContents";
 import ArticleLoader from "./ArticleLoader";
 import RecentPosts from "./RecentPosts";
+import Sidebar from "./Sidebar";
 import PostNavigation from "./PostNavigation";
 import ShareButtons from "./ShareButtons";
 import { MDXRemoteProps } from "next-mdx-remote";
@@ -41,14 +41,7 @@ const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
         </div>
 
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:block lg:col-span-1 space-y-8">
-          <div className="sticky top-24">
-            <TableOfContents headings={article.headings} />
-            <div className="mt-8">
-              <RecentPosts posts={recentPosts} />
-            </div>
-          </div>
-        </aside>
+        <Sidebar headings={article.headings} posts={recentPosts} />
       </div>
     </div>
   );
