@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import PostNavigation from "./PostNavigation";
 import ShareButtons from "./ShareButtons";
 import { MDXRemoteProps } from "next-mdx-remote";
+import TableOfContents from "./TableOfContents";
 
 type Props = {
   article: Post;

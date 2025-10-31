@@ -123,7 +123,7 @@ const TableOfContents = ({ headings }: Props) => {
       </div>
 
       {/* Desktop */}
-      <aside className="sticky top-24 hidden lg:block">
+      <aside className="hidden lg:block">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
