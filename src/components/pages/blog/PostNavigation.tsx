@@ -27,21 +27,23 @@ const PostNavigation = ({ prevPost, nextPost }: Props) => {
                 className={`${iconClasses} group-hover:-translate-x-1`}
               />
               <div className={`${textContainer} text-right`}>
-                <span className={labelClasses}>前の記事</span>
+                <span className={labelClasses}>Previous Post</span>
                 <span className={titleClasses}>
                   {prevPost.frontmatter.title}
                 </span>
               </div>
             </Link>
           ) : (
-            <div className="text-center p-4 text-gray-500">前の記事はありません</div>
+            <div className="text-center p-4 text-gray-500">
+              This is the first post.
+            </div>
           )}
         </div>
         <div>
           {nextPost ? (
             <Link href={`/blog/${nextPost.slug}`} className={navLinkClasses}>
               <div className={`${textContainer} text-left`}>
-                <span className={labelClasses}>次の記事</span>
+                <span className={labelClasses}>Next Post</span>
                 <span className={titleClasses}>
                   {nextPost.frontmatter.title}
                 </span>
@@ -51,7 +53,9 @@ const PostNavigation = ({ prevPost, nextPost }: Props) => {
               />
             </Link>
           ) : (
-            <div className="text-center p-4 text-gray-500">次の記事はありません</div>
+            <div className="text-center p-4 text-gray-500">
+              Next article will be coming soon...
+            </div>
           )}
         </div>
       </div>
