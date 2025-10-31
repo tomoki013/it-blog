@@ -22,7 +22,7 @@ const ShareButtons = ({ title }: Props) => {
 
   useEffect(() => {
     if (navigator.share !== undefined) {
-      setIsShareSupported(true);
+      setTimeout(() => setIsShareSupported(true), 0);
     }
   }, []);
 
