@@ -20,7 +20,7 @@ const HeroSection = () => {
     <motion.section
       ref={targetRef}
       style={{ opacity, scale, y }}
-      className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-transparent"
+      className="relative h-screen flex items-center justify-center overflow-hidden bg-transparent"
     >
       <AnimatedBackground className="absolute inset-0 opacity-85 -z-10" />
       <div className="relative z-10 text-white text-center max-w-4xl mx-auto px-4">
