@@ -12,19 +12,19 @@ async function SitemapContents() {
   const allPosts = await getAllPosts();
 
   const staticPages = [
-    { title: "ホーム", href: "/" },
-    { title: "このブログについて", href: "/about" },
-    { title: "すべての記事", href: "/blog" },
-    { title: "ドキュメント", href: "/documentation" },
-    { title: "ソーシャル", href: "/social" },
-    { title: "経歴", href: "/careers" },
-    { title: "お問い合わせ", href: "/contact" },
+    { title: "Home", href: "/" },
+    { title: "About", href: "/about" },
+    { title: "Blog", href: "/blog" },
+    { title: "Document", href: "/documentation" },
+    { title: "Social", href: "/social" },
+    // { title: "経歴", href: "/careers" },
+    { title: "Contact", href: "/contact" },
   ];
 
   const legalPages = [
-    { title: "プライバシーポリシー", href: "/privacy-policy" },
-    { title: "利用規約", href: "/terms-of-service" },
-    { title: "クッキーポリシー", href: "/cookie-policy" },
+    { title: "Privacy Policy", href: "/privacy-policy" },
+    { title: "Terms of Service", href: "/terms-of-service" },
+    { title: "Cookie Policy", href: "/cookie-policy" },
   ];
 
   return (
