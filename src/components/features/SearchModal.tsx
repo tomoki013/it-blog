@@ -24,8 +24,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         searchInputRef.current?.focus();
       }, 100);
     } else {
-      setQuery("");
-      setResults([]);
+      setTimeout(() => {
+        setQuery("");
+        setResults([]);
+      }, 200);
     }
   }, [isOpen]);
 
@@ -53,7 +55,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-start justify-center pt-20"
+          className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-sm flex items-start justify-center pt-20"
           onClick={onClose}
         >
           <motion.div
