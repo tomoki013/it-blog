@@ -3,6 +3,8 @@ import path from "path";
 import matter from "gray-matter";
 import { Frontmatter, Post, Heading } from "@/types/post";
 import { serialize } from "next-mdx-remote/serialize";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import { slugify } from "./utils";
 
@@ -106,6 +108,8 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
             const mdxSource = await serialize(content, {
                 mdxOptions: {
                     rehypePlugins: [
+                        rehypeSlug,
+                        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
                         [rehypePrettyCode, { theme: 'one-dark-pro' }],
                     ],
                 },

@@ -13,21 +13,23 @@ const ArticleHeader = ({ frontmatter }: Props) => {
 
   return (
     <header className="mb-12 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden mb-8 shadow-[0_0_20px_theme(colors.primary/0.5)] border border-primary/20"
-      >
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-      </motion.div>
+      {image && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden mb-8 shadow-[0_0_20px_theme(colors.primary/0.5)] border border-primary/20"
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        </motion.div>
+      )}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
