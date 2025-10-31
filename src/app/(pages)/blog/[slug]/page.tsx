@@ -1,5 +1,5 @@
 import ArticleDetail from "@/components/pages/blog/ArticleDetail";
-import { getPostBySlug } from "@/lib/posts";
+import { getAllPosts, getPostBySlug, getAdjacentPosts } from "@/lib/posts";
 import { notFound } from "next/navigation";
 
 const ArticlePage = async (props: { params: Promise<{ slug: string }> }) => {
@@ -10,7 +10,17 @@ const ArticlePage = async (props: { params: Promise<{ slug: string }> }) => {
     notFound();
   }
 
-  return <ArticleDetail article={article} />;
+  const { prevPost, nextPost } = await getAdjacentPosts(params.slug);
+  const recentPosts = await getAllPosts();
+
+  return (
+    <ArticleDetail
+      article={article}
+      recentPosts={recentPosts}
+      prevPost={prevPost}
+      nextPost={nextPost}
+    />
+  );
 };
 
 export default ArticlePage;

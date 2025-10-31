@@ -153,3 +153,25 @@ export const getAllPostSlugs = () => {
   });
   return allSlugs;
 };
+
+/**
+ * 現在の記事の前後の記事を取得します。
+ * @param {string} slug - 現在の記事のslug
+ * @returns {Promise<{prevPost: Omit<Post, 'content' | 'headings'> | null, nextPost: Omit<Post, 'content' | 'headings'> | null}>}
+ */
+export const getAdjacentPosts = async (slug: string): Promise<{
+  prevPost: Omit<Post, 'content' | 'headings'> | null;
+  nextPost: Omit<Post, 'content' | 'headings'> | null;
+}> => {
+  const allPosts = await getAllPosts();
+  const currentIndex = allPosts.findIndex((post) => post.slug === slug);
+
+  if (currentIndex === -1) {
+    return { prevPost: null, nextPost: null };
+  }
+
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  return { prevPost, nextPost };
+};
