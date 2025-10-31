@@ -54,7 +54,7 @@ const extractHeadings = (content: string): Heading[] => {
  * すべての記事のメタデータ（Frontmatter）を日付の降順で取得します。
  * @returns {Promise<Omit<Post, 'content'>[]>} ソート済みの記事メタデータ配列
  */
-export const getAllPosts = async (): Promise<Omit<Post, "content" | "headings">[]> => {
+export const getAllPosts = async (limit?: number): Promise<Omit<Post, "content" | "headings">[]> => {
   const postDirs = getPostDirectories();
   const allPostsData = postDirs.flatMap((dir) => {
     const absoluteDir = path.join(postsRootDirectory, dir);
@@ -81,13 +81,19 @@ export const getAllPosts = async (): Promise<Omit<Post, "content" | "headings">[
   });
 
   // 記事を日付でソート
-  return allPostsData.sort((a, b) => {
+  const sortedPosts = allPostsData.sort((a, b) => {
     if (a.frontmatter.date < b.frontmatter.date) {
       return 1;
     } else {
       return -1;
     }
   });
+
+  if (limit) {
+    return sortedPosts.slice(0, limit);
+  }
+
+  return sortedPosts;
 };
 
 /**
@@ -170,8 +176,8 @@ export const getAdjacentPosts = async (slug: string): Promise<{
     return { prevPost: null, nextPost: null };
   }
 
-  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
   return { prevPost, nextPost };
 };
