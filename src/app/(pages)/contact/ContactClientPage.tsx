@@ -1,6 +1,6 @@
 "use client";
 
-import ContactForm from "@/components/features/ContactForm";
+import { ContactForm } from "@/components/features/ContactForm";
 import { motion } from "framer-motion";
 
 const ContactClientPage = () => {

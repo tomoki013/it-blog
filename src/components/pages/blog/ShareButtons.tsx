@@ -21,7 +21,7 @@ const ShareButtons = ({ title }: Props) => {
   const [isShareSupported, setIsShareSupported] = useState(false);
 
   useEffect(() => {
-    if (navigator.share) {
+    if (navigator.share !== undefined) {
       setIsShareSupported(true);
     }
   }, []);
