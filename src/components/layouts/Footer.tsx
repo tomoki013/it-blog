@@ -12,6 +12,7 @@ const Footer = () => {
       links: [
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
+        { label: "Social", href: "/social" },
         { label: "Careers", href: "/careers" },
         { label: "Contact", href: "/contact" },
       ],
@@ -19,7 +20,7 @@ const Footer = () => {
     {
       title: "Resources",
       links: [
-        { label: "Documentation", href: "/docs" },
+        { label: "Documentation", href: "/documentation" },
         { label: "Newsletter", href: "/newsletter" },
         { label: "RSS Feed", href: "/rss" },
         { label: "Sitemap", href: "/sitemap" },

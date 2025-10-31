@@ -14,6 +14,8 @@ async function SitemapContents() {
     { title: "ホーム", href: "/" },
     { title: "このブログについて", href: "/about" },
     { title: "すべての記事", href: "/blog" },
+    { title: "ドキュメント", href: "/documentation" },
+    { title: "ソーシャル", href: "/social" },
     { title: "経歴", href: "/careers" },
     { title: "お問い合わせ", href: "/contact" },
   ];
