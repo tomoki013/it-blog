@@ -24,7 +24,7 @@ const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
           <ArticleHeader frontmatter={article.frontmatter} />
 
           {/* Mobile ToC */}
-          <div className="lg:hidden my-8">
+          <div className="lg:hidden">
             <TableOfContents headings={article.headings} />
           </div>
 
