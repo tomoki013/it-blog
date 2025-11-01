@@ -29,7 +29,10 @@ const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
           </div>
 
           {article.source && (
-            <ArticleLoader source={article.source as MDXRemoteProps} />
+            <ArticleLoader
+              key={article.slug}
+              source={article.source as MDXRemoteProps}
+            />
           )}
 
           <ShareButtons title={article.frontmatter.title} />
