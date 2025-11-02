@@ -1,3 +1,5 @@
+"use client";
+
 import { Post } from "@/types/post";
 import ArticleHeader from "./ArticleHeader";
 import ArticleLoader from "./ArticleLoader";
@@ -7,6 +9,7 @@ import PostNavigation from "./PostNavigation";
 import ShareButtons from "./ShareButtons";
 import { MDXRemoteProps } from "next-mdx-remote";
 import TableOfContents from "./TableOfContents";
+import { motion } from "framer-motion";
 
 type Props = {
   article: Post;
@@ -15,12 +18,38 @@ type Props = {
   nextPost: Omit<Post, "content" | "headings"> | null;
 };
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
 const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
   return (
-    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <motion.div
+      className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="lg:grid lg:grid-cols-4 lg:gap-12">
         {/* Main Content */}
-        <div className="lg:col-span-3">
+        <motion.div className="lg:col-span-3" variants={itemVariants}>
           <ArticleHeader frontmatter={article.frontmatter} />
 
           {/* Mobile ToC */}
@@ -42,12 +71,14 @@ const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
           <div className="lg:hidden mt-12">
             <RecentPosts posts={recentPosts} />
           </div>
-        </div>
+        </motion.div>
 
         {/* Desktop Sidebar */}
-        <Sidebar headings={article.headings} posts={recentPosts} />
+        <motion.div variants={itemVariants}>
+          <Sidebar headings={article.headings} posts={recentPosts} />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
