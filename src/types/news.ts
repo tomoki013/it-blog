@@ -1,10 +1,11 @@
 import { MDXRemoteProps } from 'next-mdx-remote';
 
 export type NewsFrontmatter = {
-  title: string;
+  id: string;
   date: string;
-  description: string;
-  category: string;
+  title: string;
+  link: string;
+  tags: string[];
 };
 
 export type Heading = {
