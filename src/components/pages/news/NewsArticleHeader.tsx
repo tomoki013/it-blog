@@ -8,14 +8,21 @@ type Props = {
 };
 
 const NewsArticleHeader = ({ frontmatter }: Props) => {
-  const { title, date, category } = frontmatter;
+  const { title, date, tags } = frontmatter;
 
   return (
     <header className="mb-12 text-center">
       <motion.div>
-        <p className="text-secondary font-mono tracking-widest mb-2">
-          {category}
-        </p>
+        <div className="flex justify-center gap-2">
+          {tags.map((tag) => (
+            <p
+              key={tag}
+              className="text-secondary font-mono tracking-widest mb-2"
+            >
+              {tag}
+            </p>
+          ))}
+        </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight gradient-text mb-4 glitch" data-text={title}>
           {title}
         </h1>

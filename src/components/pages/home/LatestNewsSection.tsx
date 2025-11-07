@@ -53,17 +53,19 @@ const LatestNewsSection = ({ news }: Props) => {
                 href={`/news/${item.slug}`}
                 className="block bg-card rounded-xl p-6 border border-border-dark hover:border-primary/20 transition-all hover:shadow-[--shadow-neon-primary]"
               >
-                <motion.span
-                  className="inline-block text-sm font-medium text-secondary mb-2"
-                >
-                  {item.frontmatter.category}
-                </motion.span>
+                <div className="flex gap-2">
+                  {item.frontmatter.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-block text-sm font-medium text-secondary mb-2"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
                 <h3 className="text-xl font-semibold mt-2 mb-3">
                   {item.frontmatter.title}
                 </h3>
-                <p className="text-muted-foreground">
-                  {item.frontmatter.description}
-                </p>
                 <p className="text-xs text-gray-400 mt-4">
                   {new Date(item.frontmatter.date).toLocaleDateString("ja-JP")}
                 </p>
