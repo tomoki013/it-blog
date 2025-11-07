@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { News } from "@/types/news";
+import { FaArrowRight } from "react-icons/fa";
 
 type Props = {
   news: Omit<News, "content" | "headings">[];
@@ -20,64 +21,75 @@ const LatestNewsSection = ({ news }: Props) => {
     },
   };
 
+  const itemVariant = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
-    <section className="bg-muted py-20">
+    <section className="py-20">
       <div className="max-w-7xl mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-4xl font-bold mb-12 text-center gradient-text"
-        >
-          Latest News
-        </motion.h2>
+        <div className="flex justify-between items-center mb-12">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-bold text-center gradient-text"
+          >
+            News
+          </motion.h2>
+          <Link href="/news" className="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors group">
+            <span>View All</span>
+            <FaArrowRight className="transform transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="flex flex-col"
         >
-          {news.map((item, index) => (
+          {news.map((item) => (
             <motion.div
-              key={index}
+              key={item.slug}
+              variants={itemVariant}
               whileHover={{
-                y: -10,
+                x: 5,
                 transition: {
                   type: "spring",
-                  stiffness: 300,
+                  stiffness: 400,
                   damping: 10,
                 },
               }}
             >
               <Link
-                href={`/news/${item.slug}`}
-                className="block bg-card rounded-xl p-6 border border-border-dark hover:border-primary/20 transition-all hover:shadow-[--shadow-neon-primary]"
+                href={item.frontmatter.link || `/news/${item.slug}`}
+                target={item.frontmatter.link ? "_blank" : "_self"}
+                rel={item.frontmatter.link ? "noopener noreferrer" : ""}
+                className="flex flex-col md:flex-row items-baseline gap-x-6 gap-y-2 p-4 border-b border-border-dark hover:bg-card/50 rounded-lg transition-all"
               >
-                <div className="flex gap-2">
+                <time dateTime={item.frontmatter.date} className="text-sm text-gray-400 min-w-[100px]">
+                  {new Date(item.frontmatter.date).toLocaleDateString("en-CA")}
+                </time>
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-base">
+                    {item.frontmatter.title}
+                  </h3>
+                </div>
+                <div className="flex gap-2 flex-wrap">
                   {item.frontmatter.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-block text-sm font-medium text-secondary mb-2"
+                      className="inline-block text-xs font-medium text-secondary bg-secondary/10 px-2 py-1 rounded-full"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
-                <h3 className="text-xl font-semibold mt-2 mb-3">
-                  {item.frontmatter.title}
-                </h3>
-                <p className="text-xs text-gray-400 mt-4">
-                  {new Date(item.frontmatter.date).toLocaleDateString("ja-JP")}
-                </p>
               </Link>
             </motion.div>
           ))}
         </motion.div>
-        <div className="text-center mt-12">
-            <Link href="/news" className="inline-block bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-dark transition-colors">
-                View All News
-            </Link>
-        </div>
       </div>
     </section>
   );
