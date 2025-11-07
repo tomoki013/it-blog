@@ -36,10 +36,11 @@ const extractHeadings = (content: string): Heading[] => {
  * @returns {Promise<Omit<News, 'content' | 'headings'>[]>} ソート済みのニュースメタデータ配列
  */
 export const getAllNews = async (limit?: number): Promise<Omit<News, "content" | "headings">[]> => {
-  const fileNames = fs.readdirSync(newsDirectory);
+  try {
+    const fileNames = fs.readdirSync(newsDirectory);
 
-  const allNewsData = fileNames
-    .filter((fileName) => fileName.endsWith(".mdx"))
+    const allNewsData = fileNames
+      .filter((fileName) => fileName.endsWith(".mdx"))
     .map((fileName) => {
       const slug = fileName.replace(/\.mdx$/, "");
       const fullPath = path.join(newsDirectory, fileName);
@@ -67,6 +68,10 @@ export const getAllNews = async (limit?: number): Promise<Omit<News, "content" |
   }
 
   return sortedNews;
+  } catch (error) {
+    // ディレクトリが存在しない場合は空の配列を返す
+    return [];
+  }
 };
 
 /**
@@ -112,12 +117,17 @@ export const getNewsBySlug = async (slug: string): Promise<News | null> => {
  * @returns {{ slug: string }[]}
  */
 export const getAllNewsSlugs = () => {
-  const fileNames = fs.readdirSync(newsDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith(".mdx"))
-    .map((fileName) => {
-      return {
-        slug: fileName.replace(/\.mdx$/, ""),
-      };
-    });
+  try {
+    const fileNames = fs.readdirSync(newsDirectory);
+    return fileNames
+      .filter((fileName) => fileName.endsWith(".mdx"))
+      .map((fileName) => {
+        return {
+          slug: fileName.replace(/\.mdx$/, ""),
+        };
+      });
+  } catch (error) {
+    // ディレクトリが存在しない場合は空の配列を返す
+    return [];
+  }
 };
