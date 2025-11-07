@@ -12,6 +12,7 @@ const Footer = () => {
       links: [
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
+        { label: "News", href: "/news" },
         { label: "Social", href: "/social" },
         // { label: "Careers", href: "/careers" },
         { label: "Contact", href: "/contact" },
