@@ -1,6 +1,7 @@
-import { ContactForm } from '@/components/features/ContactForm';
-import { GlitchText } from '@/components/ui/GlitchText';
-import { NextPage } from 'next';
+// import { ContactForm } from '@/components/features/ContactForm';
+import { GlitchText } from "@/components/ui/GlitchText";
+import { NextPage } from "next";
+import Link from "next/link";
 
 const ContactPage: NextPage = () => {
   return (
@@ -15,7 +16,10 @@ const ContactPage: NextPage = () => {
       </header>
 
       <main className="flex justify-center">
-        <ContactForm />
+        {/* <ContactForm /> */}
+        <Link href="mailto:gaomuyouxi81@gmail.com">
+          お問い合わせはこちらからメールでお送りください。
+        </Link>
       </main>
     </div>
   );
