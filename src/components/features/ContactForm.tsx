@@ -21,7 +21,6 @@ export const ContactForm = () => {
     message: "",
     agreement: false,
   });
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,11 +35,14 @@ export const ContactForm = () => {
   const { name, email, message, agreement } = formData;
   const isFormValid = !!(name && email && message && agreement);
 
+  const handleReset = () => {
+    setFormData({ name: "", email: "", message: "", agreement: false }); // stateもリセット
+  };
+
   useEffect(() => {
     if (state.status === "success") {
       toast.success(state.message);
       formRef.current?.reset(); // 成功時にフォームをリセット
-      setFormData({ name: "", email: "", message: "", agreement: false }); // stateもリセット
     } else if (state.status === "error" && state.message && !state.errors) {
       // Zod以外のサーバーエラーなどをトーストで表示
       toast.error(state.message);
@@ -55,6 +57,7 @@ export const ContactForm = () => {
     <form
       ref={formRef}
       action={formAction}
+      onReset={handleReset}
       className="w-full max-w-lg space-y-8"
     >
       <div className="relative">
