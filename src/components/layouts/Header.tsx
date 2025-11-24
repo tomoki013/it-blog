@@ -35,36 +35,33 @@ const Header = () => {
   }, [isSearchModalOpen]);
 
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/blog", label: "Blog" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: "HOME" },
+    { href: "/blog", label: "BLOG" },
+    { href: "/about", label: "ABOUT" },
+    { href: "/contact", label: "CONTACT" },
   ];
-
-  const isHomePage = pathname === "/";
 
   return (
     <>
       <header
-        className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled || !isHomePage
-            ? "bg-background/90 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/20"
-            : ""
+        className={`fixed w-full z-50 transition-all duration-500 ${
+          isScrolled ? "glass py-2" : "bg-transparent py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <motion.a
-              href="/"
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold glitch"
-              data-text="ともきちのエンジニア成長記"
             >
-              ともきちのエンジニア成長記
-            </motion.a>
+              <Link href="/" className="group relative block">
+                <span className="text-2xl font-bold font-display tracking-widest text-primary group-hover:text-shadow-glow-primary transition-all duration-300">
+                  ともきちのエンジニア成長記
+                </span>
+                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300 shadow-[0_0_10px_var(--color-primary)]" />
+              </Link>
+            </motion.div>
 
             <nav className="hidden md:flex items-center space-x-8">
               {navItems.map((item, index) => (
@@ -79,58 +76,49 @@ const Header = () => {
                 >
                   <Link
                     href={item.href}
-                    className={`transition-colors ${
+                    className={`relative px-2 py-1 transition-colors font-sans tracking-wide ${
                       pathname === item.href
-                        ? isHomePage && !isScrolled
-                          ? "text-white"
-                          : "text-foreground"
-                        : isHomePage && !isScrolled
-                        ? "text-white/70 hover:text-white"
-                        : "text-foreground/70 hover:text-foreground"
+                        ? "text-primary text-shadow-glow-primary"
+                        : "text-text-secondary hover:text-primary"
                     }`}
                   >
                     {item.label}
-                  </Link>
-                  <AnimatePresence>
-                    {(pathname === item.href || hoveredPath === item.href) && (
+                    {pathname === item.href && (
                       <motion.span
                         layoutId="underline"
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 5 }}
+                        className="absolute left-0 right-0 bottom-0 h-[1px] bg-primary shadow-[0_0_8px_var(--color-primary)]"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         transition={{ duration: 0.3 }}
-                        className="absolute left-0 right-0 h-0.5 bg-primary -bottom-1"
                       />
                     )}
-                  </AnimatePresence>
+                  </Link>
                 </motion.div>
               ))}
             </nav>
 
             <div className="flex items-center space-x-4">
               <DarkModeToggle />
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsSearchModalOpen(true)}
-                  aria-label="検索モーダルを開く"
-                >
-                  <Search className="h-5 w-5" />
-                </Button>
-              </motion.div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsSearchModalOpen(true)}
+                className="p-2 text-text-secondary hover:text-primary transition-colors"
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5" />
+              </motion.button>
+
+              <button
+                className="md:hidden p-2 text-text-secondary hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
-                  <X className="h-5 w-5" />
+                  <X className="h-6 w-6" />
                 ) : (
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-6 w-6" />
                 )}
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -138,23 +126,35 @@ const Header = () => {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, x: "-100%" }}
+              initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "-100%" }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden bg-background backdrop-blur-lg absolute top-full left-0 w-full"
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-0 z-60 bg-background/95 backdrop-blur-xl md:hidden flex flex-col justify-center items-center"
             >
-              <nav className="px-4 py-6 space-y-4">
+              {/* Background Elements */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(var(--primary-rgb),0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(var(--primary-rgb),0.05)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_50%)] bg-size-[100%_4px] opacity-10 pointer-events-none" />
+
+              <button
+                className="absolute top-6 right-6 p-2 text-text-secondary hover:text-primary transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X className="h-8 w-8" />
+              </button>
+
+              <nav className="flex flex-col items-center space-y-8 relative z-10">
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
                     transition={{ delay: 0.1 + index * 0.1 }}
                   >
                     <Link
                       href={item.href}
-                      className="block text-foreground/80 hover:text-foreground transition-colors py-2"
+                      className="block text-4xl font-display font-bold tracking-widest text-transparent bg-clip-text bg-linear-to-r from-text-secondary to-text-secondary hover:from-primary hover:to-secondary transition-all duration-300 hover:scale-110"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -162,6 +162,12 @@ const Header = () => {
                   </motion.div>
                 ))}
               </nav>
+
+              <div className="absolute bottom-12 left-0 w-full text-center">
+                <p className="text-primary/50 font-mono text-sm tracking-[0.5em] animate-pulse">
+                  SYSTEM ONLINE
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

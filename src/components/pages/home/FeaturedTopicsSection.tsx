@@ -4,99 +4,89 @@ import { Code2, Command, Cpu, Terminal, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const FeaturedTopicsSection = () => {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
+  const topics = [
+    {
+      icon: <Code2 className="h-8 w-8" />,
+      title: "Development",
+      description: "Modern web development practices and tutorials",
+      color: "text-primary",
+      border: "group-hover:border-primary",
+      shadow: "group-hover:shadow-[0_0_20px_var(--color-primary)]",
     },
-  };
+    {
+      icon: <Terminal className="h-8 w-8" />,
+      title: "DevOps",
+      description: "Infrastructure and deployment strategies",
+      color: "text-secondary",
+      border: "group-hover:border-secondary",
+      shadow: "group-hover:shadow-[0_0_20px_var(--color-secondary)]",
+    },
+    {
+      icon: <Cpu className="h-8 w-8" />,
+      title: "AI & ML",
+      description: "Latest in artificial intelligence and machine learning",
+      color: "text-accent",
+      border: "group-hover:border-accent",
+      shadow: "group-hover:shadow-[0_0_20px_var(--color-accent)]",
+    },
+    {
+      icon: <Command className="h-8 w-8" />,
+      title: "Tools",
+      description: "Reviews of developer tools and software",
+      color: "text-purple",
+      border: "group-hover:border-purple",
+      shadow: "group-hover:shadow-[0_0_20px_var(--color-purple)]",
+    },
+  ];
 
   return (
-    <section className="relative z-10 max-w-7xl mx-auto pt-40 pb-20 px-4 bg-background">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold mb-12 text-center gradient-text"
-      >
-        Featured Topics
-      </motion.h2>
-      <motion.div
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-      >
-        {[
-          {
-            icon: <Code2 className="h-8 w-8" />,
-            title: "Development",
-            description: "Modern web development practices and tutorials",
-            color: "from-primary to-secondary",
-          },
-          {
-            icon: <Terminal className="h-8 w-8" />,
-            title: "DevOps",
-            description: "Infrastructure and deployment strategies",
-            color: "from-secondary to-primary",
-          },
-          {
-            icon: <Cpu className="h-8 w-8" />,
-            title: "AI & ML",
-            description:
-              "Latest in artificial intelligence and machine learning",
-            color: "from-primary to-secondary",
-          },
-          {
-            icon: <Command className="h-8 w-8" />,
-            title: "Tools",
-            description: "Reviews of developer tools and software",
-            color: "from-secondary to-primary",
-          },
-        ].map((category, index) => (
-          <motion.div
-            key={index}
-            whileHover={{
-              scale: 1.05,
-              rotate: [0, 2, -2, 0],
-              transition: { duration: 0.3 },
-            }}
-            className={`group relative bg-background hover:bg-gradient-to-r ${category.color} p-6 rounded-xl border border-cyan-500 hover:border-magenta-500 transition-all duration-300 hover:shadow-[--shadow-neon-secondary] animate-float`}
-            style={{ animationDelay: `${index * 0.2}s` }}
-          >
+    <section className="relative py-24 bg-background">
+      <div className="max-w-7xl mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold font-display mb-4">
+            FEATURED <span className="text-secondary">TOPICS</span>
+          </h2>
+          <p className="text-text-secondary">
+            Dive deep into specific areas of technology.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {topics.map((topic, index) => (
             <motion.div
-              initial={{ rotate: 0 }}
-              whileHover={{
-                rotate: 360,
-                scale: [1, 1.2, 1],
-              }}
-              transition={{ duration: 0.5 }}
-              className="mb-4 text-primary group-hover:text-white"
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className={`group relative p-6 bg-dark-card border border-white/5 rounded-xl transition-all duration-300 ${topic.border} ${topic.shadow}`}
             >
-              {category.icon}
+              <div
+                className={`mb-4 ${topic.color} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+              >
+                {topic.icon}
+              </div>
+
+              <h3 className="text-xl font-bold mb-2 font-display tracking-wide group-hover:text-white transition-colors">
+                {topic.title}
+              </h3>
+
+              <p className="text-text-secondary text-sm mb-6 group-hover:text-white/80 transition-colors">
+                {topic.description}
+              </p>
+
+              <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                <ArrowRight className={`h-5 w-5 ${topic.color}`} />
+              </div>
             </motion.div>
-            <h3 className="text-xl font-semibold mb-2 group-hover:text-white">
-              {category.title}
-            </h3>
-            <p className="text-muted-foreground group-hover:text-white/80">
-              {category.description}
-            </p>
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="absolute bottom-6 right-6 text-white"
-            >
-              <ArrowRight className="h-5 w-5" />
-            </motion.div>
-          </motion.div>
-        ))}
-      </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

@@ -8,27 +8,24 @@ import Link from "next/link";
 const Footer = () => {
   const footerLinks = [
     {
-      title: "Contents",
+      title: "CONTENTS",
       links: [
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
         { label: "News", href: "/news" },
         { label: "Social", href: "/social" },
-        // { label: "Careers", href: "/careers" },
         { label: "Contact", href: "/contact" },
       ],
     },
     {
-      title: "Resources",
+      title: "RESOURCES",
       links: [
         { label: "Documentation", href: "/documentation" },
-        // { label: "Newsletter", href: "/newsletter" },
-        // { label: "RSS Feed", href: "/rss" },
         { label: "Sitemap", href: "/sitemap" },
       ],
     },
     {
-      title: "Legal",
+      title: "LEGAL",
       links: [
         { label: "Privacy Policy", href: "/privacy-policy" },
         { label: "Terms of Service", href: "/terms-of-service" },
@@ -54,10 +51,6 @@ const Footer = () => {
       icon: <SiZenn className="h-5 w-5" />,
       href: "https://zenn.dev/tomoki013/",
     },
-    // {
-    //   icon: <FaTwitter className="h-5 w-5" />,
-    //   href: "https://note.com/tomokichidiary/",
-    // },
     {
       icon: <FaPenSquare className="h-5 w-5" />,
       href: "https://note.com/tomokichidiary/",
@@ -65,20 +58,26 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-card border-t border-primary/20 shadow-[0_-10px_30px_-15px_rgba(0,246,255,0.1)]">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative mt-20 border-t border-border bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(188,19,254,0.1),transparent_50%)] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="space-y-4"
+            className="space-y-6"
           >
-            <Link href={`/`}>
-              <h2 className="text-2xl font-bold">ともきちのエンジニア成長記</h2>
+            <Link href="/" className="block">
+              <h2 className="text-2xl font-bold font-display tracking-widest text-primary">
+                ともきちのエンジニア成長記
+              </h2>
             </Link>
-            <p className="text-muted-foreground">
+            <p className="text-text-secondary text-sm leading-relaxed">
               技術の備忘録とポートフォリオ
+              <br />
+              一歩ずつ進む
             </p>
             <div className="flex gap-4 flex-wrap">
               {socialLinks.map((social, index) => (
@@ -87,17 +86,9 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.2 + index * 0.1,
-                  }}
-                  whileHover={{ scale: 1.2, y: -5 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="text-primary/70 hover:text-primary transition-all duration-300
-                             shadow-[0_0_10px_rgba(0,246,255,0.3)] hover:shadow-[0_0_20px_rgba(0,246,255,0.7)]
-                             rounded-full w-fit p-2"
+                  className="text-text-secondary hover:text-primary transition-all duration-300 p-2 rounded-full hover:bg-white/5 hover:shadow-[0_0_15px_var(--color-primary)]"
                 >
                   {social.icon}
                 </motion.a>
@@ -110,11 +101,13 @@ const Footer = () => {
               key={section.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 + sectionIndex * 0.1 }}
-              className="space-y-4"
+              transition={{ duration: 0.5, delay: 0.1 + sectionIndex * 0.1 }}
+              className="space-y-6"
             >
-              <h3 className="font-semibold">{section.title}</h3>
-              <ul className="space-y-2">
+              <h3 className="font-display font-bold text-lg tracking-wider text-white border-b border-primary/30 pb-2 w-fit">
+                {section.title}
+              </h3>
+              <ul className="space-y-3">
                 {section.links.map((link) => (
                   <motion.li
                     key={link.label}
@@ -123,8 +116,9 @@ const Footer = () => {
                   >
                     <Link
                       href={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-text-secondary hover:text-primary transition-colors text-sm flex items-center gap-2 group"
                     >
+                      <span className="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                       {link.label}
                     </Link>
                   </motion.li>
@@ -138,20 +132,12 @@ const Footer = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-border/50 text-center"
+          className="mt-16 pt-8 border-t border-white/5 text-center"
         >
-          <motion.p
-            animate={{ opacity: [0.7, 1, 0.7] }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="text-muted-foreground"
-          >
+          <p className="text-text-muted text-xs font-mono">
             &copy; {new Date().getFullYear()} ともきちのエンジニア成長記. All
             rights reserved.
-          </motion.p>
+          </p>
         </motion.div>
       </div>
     </footer>

@@ -5,21 +5,22 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 font-mono tracking-wide",
   {
     variants: {
       variant: {
         default:
-          "border border-cyan-500 bg-cyan-500/20 text-cyan-400 backdrop-blur-sm hover:bg-cyan-500/30 hover:shadow-[0_0_15px_rgba(0,255,255,0.7)]",
+          "bg-primary/10 text-primary border border-primary/50 hover:bg-primary/20 hover:shadow-[0_0_20px_var(--color-primary)] hover:border-primary",
         destructive:
-          "border border-red-500 bg-red-500/20 text-red-400 backdrop-blur-sm hover:bg-red-500/30 hover:shadow-[0_0_15px_rgba(255,0,0,0.7)]",
+          "bg-destructive/10 text-destructive border border-destructive/50 hover:bg-destructive/20 hover:shadow-[0_0_20px_var(--color-destructive)]",
         outline:
-          "border border-input bg-transparent text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(0,255,255,0.7)]",
+          "border border-white/20 bg-transparent hover:bg-white/5 hover:text-white hover:border-white/50",
         secondary:
-          "border border-magenta-500 bg-magenta-500/20 text-magenta-400 backdrop-blur-sm hover:bg-magenta-500/30 hover:shadow-[0_0_15px_rgba(255,0,255,0.7)]",
-        ghost:
-          "text-gray-400 hover:bg-transparent hover:text-cyan-400 hover:drop-shadow-[0_0_5px_rgba(0,255,255,0.7)]",
+          "bg-secondary/10 text-secondary border border-secondary/50 hover:bg-secondary/20 hover:shadow-[0_0_20px_var(--color-secondary)] hover:border-secondary",
+        ghost: "hover:bg-white/5 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
+        cyber:
+          "relative overflow-hidden bg-dark-bg border border-primary text-primary hover:text-dark-bg hover:bg-primary transition-all duration-300 before:absolute before:inset-0 before:bg-white/20 before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-500",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -32,7 +33,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  },
+  }
 );
 
 export interface ButtonProps
@@ -51,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  },
+  }
 );
 Button.displayName = "Button";
 

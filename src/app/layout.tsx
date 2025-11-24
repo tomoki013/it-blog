@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/layouts/Theme-Provider";
 import "./globals.css";
-import { Share_Tech_Mono } from "next/font/google";
+import { Orbitron, Outfit } from "next/font/google";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/layouts/Header";
@@ -9,9 +9,16 @@ import PageTransition from "@/components/layouts/PageTransition";
 import CookieBanner from "@/components/features/CookieBanner";
 
 // 2. フォントを設定 (Inter は削除)
-const techMono = Share_Tech_Mono({
+const orbitron = Orbitron({
   subsets: ["latin"],
   weight: "400",
+  variable: "--font-orbitron",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" suppressHydrationWarning>
-      <body className={`${techMono.className} flex flex-col min-h-screen`}>
+      <body
+        className={`${orbitron.variable} ${outfit.variable} font-sans flex flex-col min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -8,8 +8,9 @@ type Props = {
 const RecentPosts = ({ posts }: Props) => {
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold text-cyan-400 border-b-2 border-cyan-400/50 pb-2">
-        最新の記事
+      <h2 className="font-display text-lg font-bold text-primary border-b border-primary/30 pb-2 flex items-center gap-2">
+        <span className="text-xs font-mono text-primary/50">02.</span>
+        LATEST LOGS
       </h2>
       <div className="grid grid-cols-1 gap-4">
         {posts.slice(0, 3).map((post) => (
