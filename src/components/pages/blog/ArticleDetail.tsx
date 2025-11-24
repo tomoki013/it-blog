@@ -18,67 +18,66 @@ type Props = {
   nextPost: Omit<Post, "content" | "headings"> | null;
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
 const ArticleDetail = ({ article, recentPosts, prevPost, nextPost }: Props) => {
   return (
-    <motion.div
-      className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <div className="lg:grid lg:grid-cols-4 lg:gap-12">
-        {/* Main Content */}
-        <motion.div className="lg:col-span-3" variants={itemVariants}>
-          <ArticleHeader frontmatter={article.frontmatter} />
+    <div className="min-h-screen bg-background relative overflow-hidden pt-24">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(188,19,254,0.05),transparent_50%)] pointer-events-none" />
 
-          {/* Mobile ToC */}
-          <div className="lg:hidden">
-            <TableOfContents headings={article.headings} />
-          </div>
+      <motion.div
+        className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="lg:grid lg:grid-cols-4 lg:gap-12">
+          {/* Main Content */}
+          <motion.div
+            className="lg:col-span-3"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <ArticleHeader frontmatter={article.frontmatter} />
 
-          {article.source && (
-            <ArticleLoader
-              key={article.slug}
-              source={article.source as MDXRemoteProps}
-            />
-          )}
+            {/* Mobile ToC */}
+            <div className="lg:hidden mb-8">
+              <TableOfContents headings={article.headings} />
+            </div>
 
-          <ShareButtons title={article.frontmatter.title} />
-          <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+            <div className="prose prose-invert prose-cyan max-w-none mb-12 bg-dark-card/50 p-6 md:p-10 rounded-xl border border-white/5 backdrop-blur-sm shadow-lg">
+              {article.source && (
+                <ArticleLoader
+                  key={article.slug}
+                  source={article.source as MDXRemoteProps}
+                />
+              )}
+            </div>
 
-          {/* Mobile Recent Posts */}
-          <div className="lg:hidden mt-12">
-            <RecentPosts posts={recentPosts} />
-          </div>
-        </motion.div>
+            <ShareButtons title={article.frontmatter.title} />
+            <PostNavigation prevPost={prevPost} nextPost={nextPost} />
 
-        {/* Desktop Sidebar */}
-        <motion.div variants={itemVariants}>
-          <Sidebar headings={article.headings} posts={recentPosts} />
-        </motion.div>
-      </div>
-    </motion.div>
+            {/* Mobile Recent Posts */}
+            <div className="lg:hidden mt-12">
+              <RecentPosts posts={recentPosts} />
+            </div>
+          </motion.div>
+
+          {/* Desktop Sidebar */}
+          <motion.div
+            className="hidden lg:block"
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="sticky top-24 space-y-8">
+              <Sidebar headings={article.headings} posts={recentPosts} />
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 

@@ -3,27 +3,53 @@
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
+import { useEffect, useState } from "react";
 
 const DarkModeToggle = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="w-14 h-8 bg-muted rounded-full" />;
+  }
+
+  const isDark = theme === "dark";
 
   return (
-    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="relative overflow-hidden group"
-        aria-label="Toggle dark mode"
+    <motion.button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className={`relative w-16 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+        isDark
+          ? "bg-dark-card border border-primary/50"
+          : "bg-gray-200 border border-gray-300"
+      }`}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      aria-label="Toggle dark mode"
+    >
+      <div className="absolute inset-0 rounded-full overflow-hidden">
+        {isDark && (
+          <div className="absolute inset-0 bg-primary/10 animate-pulse-glow" />
+        )}
+      </div>
+
+      <motion.div
+        className={`relative w-6 h-6 rounded-full shadow-md flex items-center justify-center ${
+          isDark ? "bg-primary text-dark-bg" : "bg-white text-yellow-500"
+        }`}
+        layout
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        style={{
+          x: isDark ? 32 : 0,
+        }}
       >
-        <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-        <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-dark-bg-secondary/90 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </div>
-      </Button>
-    </motion.div>
+        {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+      </motion.div>
+    </motion.button>
   );
 };
 

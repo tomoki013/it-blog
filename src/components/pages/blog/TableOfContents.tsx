@@ -2,7 +2,7 @@
 
 import { Heading } from "@/types/post";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiHash } from "react-icons/fi";
 import clsx from "clsx";
 
@@ -51,37 +51,28 @@ const TableOfContents = ({ headings }: Props) => {
 
   const tocContent = (
     <nav>
-      <h2 className="font-mono tracking-wider text-lg font-bold mb-4 text-cyan-400 border-b-2 border-cyan-400/30 pb-2">
-        目次
+      <h2 className="font-display tracking-wider text-lg font-bold mb-4 text-primary border-b border-primary/30 pb-2 flex items-center gap-2">
+        <span className="text-xs font-mono text-primary/50">01.</span>
+        TABLE OF CONTENTS
       </h2>
-      <ul className="space-y-3 relative">
+      <ul className="space-y-1 relative border-l border-white/10 ml-2">
         {headings.map((heading) => (
-          <li
-            key={heading.slug}
-            style={{ paddingLeft: `${(heading.level - 2) * 1.25}rem` }}
-            className="relative"
-          >
-            {activeHeading === heading.slug && (
-              <motion.div
-                layoutId="active-heading-indicator"
-                className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-400 rounded-full"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              />
-            )}
+          <li key={heading.slug} className="relative">
             <a
               href={`#${heading.slug}`}
               onClick={() => setIsOpen(false)}
+              style={{ paddingLeft: `${(heading.level - 1) * 1}rem` }}
               className={clsx(
-                "font-mono text-sm flex items-center gap-2 transition-colors duration-200",
+                "block py-1.5 pr-4 text-sm transition-all duration-300 relative group",
                 activeHeading === heading.slug
-                  ? "text-white font-bold"
-                  : "text-gray-400 hover:text-cyan-300"
+                  ? "text-primary font-bold bg-primary/5 border-l-2 border-primary -ml-[1px]"
+                  : "text-text-secondary hover:text-white border-l-2 border-transparent -ml-[1px] hover:border-white/30"
               )}
             >
-              <FiHash className="w-4 h-4 flex-shrink-0" />
-              <span>{heading.text}</span>
+              <span className="font-mono text-xs opacity-50 mr-2 group-hover:opacity-100 transition-opacity">
+                {">"}
+              </span>
+              {heading.text}
             </a>
           </li>
         ))}
@@ -94,11 +85,11 @@ const TableOfContents = ({ headings }: Props) => {
     <div className="lg:hidden">
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-cyan-500/80 backdrop-blur-sm border border-cyan-400/50 text-white flex items-center justify-center shadow-lg shadow-cyan-500/30"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary/90 backdrop-blur-sm border border-primary/50 text-background flex items-center justify-center shadow-[0_0_20px_var(--color-primary)]"
         whileHover={{ scale: 1.1, rotate: 90 }}
         whileTap={{ scale: 0.9 }}
       >
-        <FiMenu size={24} />
+        <FiMenu size={20} />
       </motion.button>
       <AnimatePresence>
         {isOpen && (
@@ -106,20 +97,20 @@ const TableOfContents = ({ headings }: Props) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-background/90 backdrop-blur-md"
           >
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-[85%] max-w-sm bg-[#0a192f]/90 border-l-2 border-cyan-400/50 p-8 overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-[85%] max-w-sm bg-dark-card border-l border-primary/30 p-8 overflow-y-auto"
             >
               <button
                 onClick={() => setIsOpen(false)}
-                className="absolute top-6 right-6 text-gray-400 hover:text-white"
+                className="absolute top-6 right-6 text-text-secondary hover:text-primary transition-colors"
               >
-                <FiX size={28} />
+                <FiX size={24} />
               </button>
               {tocContent}
             </motion.div>
@@ -131,18 +122,9 @@ const TableOfContents = ({ headings }: Props) => {
 
   // Desktop: Sticky Sidebar
   const desktopToc = (
-    <aside className="hidden lg:block">
-      <div className="sticky top-24">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="p-6 rounded-lg bg-black/50 backdrop-blur-md border border-cyan-400/20 shadow-lg shadow-cyan-500/10"
-        >
-          {tocContent}
-        </motion.div>
-      </div>
-    </aside>
+    <div className="p-6 rounded-xl bg-dark-card/50 backdrop-blur-md border border-white/5 shadow-lg">
+      {tocContent}
+    </div>
   );
 
   return (

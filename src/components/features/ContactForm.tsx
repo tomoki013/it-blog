@@ -50,7 +50,7 @@ export const ContactForm = () => {
   }, [state]);
 
   const submitButtonClasses = isFormValid
-    ? "group relative inline-flex items-center gap-3 overflow-hidden border-2 border-cyan-400 px-8 py-3 text-lg font-bold text-cyan-400 transition-all duration-300 hover:border-cyan-300 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-400/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[var(--color-dark-bg)]"
+    ? "group relative inline-flex items-center gap-3 overflow-hidden border-2 border-cyan-400 px-8 py-3 text-lg font-bold text-cyan-400 transition-all duration-300 hover:border-cyan-300 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-400/40 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-[var(--background)]"
     : "group relative inline-flex items-center gap-3 overflow-hidden border-2 border-gray-600 px-8 py-3 text-lg font-bold text-gray-600 transition-all duration-300 cursor-not-allowed";
 
   return (
@@ -63,7 +63,7 @@ export const ContactForm = () => {
       <div className="relative">
         <label
           htmlFor="name"
-          className="absolute -top-3 left-4 bg-[var(--color-dark-bg)] px-1 text-sm text-cyan-400 transition-colors duration-300"
+          className="absolute -top-3 left-4 bg-[var(--background)] px-1 text-sm text-cyan-400 transition-colors duration-300"
         >
           お名前
         </label>

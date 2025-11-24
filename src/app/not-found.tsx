@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { GlitchText } from '@/components/ui/GlitchText';
+import Link from "next/link";
+import { GlitchText } from "@/components/ui/GlitchText";
 
 export default function NotFound() {
   return (
