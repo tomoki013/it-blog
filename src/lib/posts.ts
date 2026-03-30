@@ -12,26 +12,6 @@ import { slugify } from "./utils";
 const postsRootDirectory = path.join(process.cwd(), "posts");
 
 /**
- * it-blog.config.jsonから記事ディレクトリのリストを取得します。
- * @returns {string[]} 記事が格納されているディレクトリ名の配列
- */
-const getPostDirectories = (): string[] => {
-  const configPath = path.join(postsRootDirectory, "it-blog.config.json");
-  try {
-    const configFile = fs.readFileSync(configPath, "utf8");
-    const config = JSON.parse(configFile);
-    // 設定ファイルに "directories" があり、それが配列であることを確認
-    if (config.directories && Array.isArray(config.directories)) {
-      return config.directories;
-    }
-    return [];
-  } catch (error) {
-    console.error("it-blog.config.jsonの読み込みまたは解析に失敗しました。", error);
-    // 設定ファイルが読めない場合は空の配列を返す
-    return [];
-  }
-};
-/**
  * MDXコンテンツから見出しを抽出します。
  * @param {string} content - MDXコンテンツの文字列
  * @returns {Heading[]} 抽出された見出しの配列
@@ -50,38 +30,36 @@ const extractHeadings = (content: string): Heading[] => {
     }
     return headings;
 };
+
 /**
  * すべての記事のメタデータ（Frontmatter）を日付の降順で取得します。
- * @returns {Promise<Omit<Post, 'content'>[]>} ソート済みの記事メタデータ配列
+ * @returns {Promise<Omit<Post, 'content' | 'headings'>[]>} ソート済みの記事メタデータ配列
  */
 export const getAllPosts = async (limit?: number): Promise<Omit<Post, "content" | "headings">[]> => {
-  const postDirs = getPostDirectories();
-  const allPostsData = postDirs.flatMap((dir) => {
-    const absoluteDir = path.join(postsRootDirectory, dir);
-    // ディレクトリが存在するか確認
-    if (!fs.existsSync(absoluteDir)) {
-      return [];
-    }
-    const fileNames = fs.readdirSync(absoluteDir);
+  let fileNames: string[] = [];
+  try {
+    fileNames = fs.readdirSync(postsRootDirectory);
+  } catch (e) {
+    return [];
+  }
 
-    return fileNames
-      .filter((fileName) => fileName.endsWith(".mdx"))
-      .map((fileName) => {
-        const slug = fileName.replace(/\.mdx$/, "");
-        const fullPath = path.join(absoluteDir, fileName);
-        const fileContents = fs.readFileSync(fullPath, "utf8");
-        const matterResult = matter(fileContents);
-        const frontmatter = matterResult.data as Frontmatter;
+  const allPostsData = fileNames
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.mdx$/, "");
+      const fullPath = path.join(postsRootDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const matterResult = matter(fileContents);
+      const frontmatter = matterResult.data as Frontmatter;
 
-        return {
-          slug,
-          frontmatter: {
-            ...frontmatter,
-            tags: frontmatter.tags || [],
-          },
-        };
-      });
-  });
+      return {
+        slug,
+        frontmatter: {
+          ...frontmatter,
+          tags: frontmatter.tags || [],
+        },
+      };
+    });
 
   // 記事を日付でソート
   const sortedPosts = allPostsData.sort((a, b) => {
@@ -106,35 +84,32 @@ export const getAllPosts = async (limit?: number): Promise<Omit<Post, "content" 
  * @returns {Promise<Post | null>} 記事データ。見つからない場合はnull。
  */
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
-    const postDirs = getPostDirectories();
-    for (const dir of postDirs) {
-        const fullPath = path.join(postsRootDirectory, dir, `${slug}.mdx`);
-        if (fs.existsSync(fullPath)) {
-            const fileContents = fs.readFileSync(fullPath, "utf8");
-            const { data, content } = matter(fileContents);
-            const frontmatter = data as Frontmatter;
-            const headings = extractHeadings(content);
-            const mdxSource = await serialize(content, {
-                mdxOptions: {
-                    rehypePlugins: [
-                        rehypeSlug,
-                        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-                        [rehypePrettyCode, { theme: 'one-dark-pro' }],
-                    ],
-                },
-                parseFrontmatter: false,
-            });
+    const fullPath = path.join(postsRootDirectory, `${slug}.mdx`);
+    if (fs.existsSync(fullPath)) {
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data, content } = matter(fileContents);
+        const frontmatter = data as Frontmatter;
+        const headings = extractHeadings(content);
+        const mdxSource = await serialize(content, {
+            mdxOptions: {
+                rehypePlugins: [
+                    rehypeSlug,
+                    [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+                    [rehypePrettyCode, { theme: 'one-dark-pro' }],
+                ],
+            },
+            parseFrontmatter: false,
+        });
 
-            return {
-                slug,
-                frontmatter,
-                content, // raw content
-                headings,
-                source: mdxSource, // serialized content
-            };
-        }
+        return {
+            slug,
+            frontmatter,
+            content, // raw content
+            headings,
+            source: mdxSource, // serialized content
+        };
     }
-    // どのディレクトリにも記事が見つからなかった場合
+    // 記事が見つからなかった場合
     return null;
 };
 
@@ -145,22 +120,19 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
  * @returns {{ slug: string }[]}
  */
 export const getAllPostSlugs = () => {
-  const postDirs = getPostDirectories();
-  const allSlugs = postDirs.flatMap((dir) => {
-    const absoluteDir = path.join(postsRootDirectory, dir);
-     if (!fs.existsSync(absoluteDir)) {
-      return [];
-    }
-    const fileNames = fs.readdirSync(absoluteDir);
-    return fileNames
-      .filter((fileName) => fileName.endsWith(".mdx"))
-      .map((fileName) => {
-        return {
-          slug: fileName.replace(/\.mdx$/, ""),
-        };
-      });
-  });
-  return allSlugs;
+  let fileNames: string[] = [];
+  try {
+    fileNames = fs.readdirSync(postsRootDirectory);
+  } catch (e) {
+    return [];
+  }
+  return fileNames
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map((fileName) => {
+      return {
+        slug: fileName.replace(/\.mdx$/, ""),
+      };
+    });
 };
 
 /**
@@ -191,33 +163,31 @@ export const getAdjacentPosts = async (slug: string): Promise<{
  * @returns {Promise<Pick<Post, 'slug' | 'frontmatter' | 'content'>[]>}
  */
 export const getAllPostsForSearch = async (): Promise<Pick<Post, 'slug' | 'frontmatter' | 'content'>[]> => {
-  const postDirs = getPostDirectories();
-  const allPostsData = postDirs.flatMap((dir) => {
-    const absoluteDir = path.join(postsRootDirectory, dir);
-    if (!fs.existsSync(absoluteDir)) {
-      return [];
-    }
-    const fileNames = fs.readdirSync(absoluteDir);
+  let fileNames: string[] = [];
+  try {
+    fileNames = fs.readdirSync(postsRootDirectory);
+  } catch (e) {
+    return [];
+  }
 
-    return fileNames
-      .filter((fileName) => fileName.endsWith(".mdx"))
-      .map((fileName) => {
-        const slug = fileName.replace(/\.mdx$/, "");
-        const fullPath = path.join(absoluteDir, fileName);
-        const fileContents = fs.readFileSync(fullPath, "utf8");
-        const { data, content } = matter(fileContents);
-        const frontmatter = data as Frontmatter;
+  const allPostsData = fileNames
+    .filter((fileName) => fileName.endsWith(".mdx"))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.mdx$/, "");
+      const fullPath = path.join(postsRootDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const { data, content } = matter(fileContents);
+      const frontmatter = data as Frontmatter;
 
-        return {
-          slug,
-          frontmatter: {
-            ...frontmatter,
-            tags: frontmatter.tags || [],
-          },
-          content,
-        };
-      });
-  });
+      return {
+        slug,
+        frontmatter: {
+          ...frontmatter,
+          tags: frontmatter.tags || [],
+        },
+        content,
+      };
+    });
 
   // 日付でソート
   return allPostsData.sort((a, b) => {

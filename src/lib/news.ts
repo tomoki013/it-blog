@@ -8,8 +8,8 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import { slugify } from "./utils";
 
-// 'posts/news-posts' ディレクトリへのパス
-const newsDirectory = path.join(process.cwd(), "posts/news-posts");
+// 'news' ディレクトリへのパス
+const newsDirectory = path.join(process.cwd(), "news");
 
 /**
  * MDXコンテンツから見出しを抽出します。

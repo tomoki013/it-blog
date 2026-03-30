@@ -14,7 +14,7 @@ const AboutPage = () => {
     { name: "Tailwind CSS", version: "v4" },
     { name: "Framer Motion", version: "12.23.24" },
     { name: "TypeScript", version: "v5" },
-    { name: "next-mdx-remote", version: "5.0.0" },
+    { name: "next-mdx-remote", version: "6.0.0" },
   ];
 
   return (
